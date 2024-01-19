@@ -1,0 +1,26 @@
+{
+    "routes": [
+      {
+        "path": "/",
+        "component": "Home"
+      },
+      {
+        "path": "/about",
+        "component": "About"
+      },
+      {
+        "path": "/products",
+        "component": "Products",
+        "routes": [
+          {
+            "path": "/products/:id",
+            "component": "ProductDetails"
+          }
+        ]
+      },
+      {
+        "path": "/contact",
+        "component": "Contact"
+      }
+    ]
+  }
