@@ -13,6 +13,16 @@ public class Category {
     private boolean active;
     private Date createdDate;
 
+    private Long userID;
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
     public Long getId() {
         return id;
     }

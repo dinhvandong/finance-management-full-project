@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import vn.vti.moneypig.models.CategoryGroup;
 import vn.vti.moneypig.models.Service;
 import vn.vti.moneypig.models.User;
+import vn.vti.moneypig.repositories.CategoryGroupRepository;
 import vn.vti.moneypig.repositories.ServiceRepository;
 import vn.vti.moneypig.repositories.UserRepository;
 import vn.vti.moneypig.security.PasswordEncoder;
@@ -14,7 +16,7 @@ import vn.vti.moneypig.security.PasswordEncoder;
 public class Database {
 
     @Bean
-    CommandLineRunner initDatabase(UserRepository userRepository) {
+    CommandLineRunner initDatabase(UserRepository userRepository, CategoryGroupRepository categoryGroupRepository) {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
@@ -25,6 +27,29 @@ public class Database {
                 user.setStatus(1);
                 if(userRepository.findAll().isEmpty())
                     userRepository.insert(user);
+
+
+                CategoryGroup categoryGroup1 = new CategoryGroup();
+                categoryGroup1.setId(1L);
+                categoryGroup1.setCode("EXPENSE");
+                categoryGroup1.setName("Expense");
+
+                CategoryGroup categoryGroup2 = new CategoryGroup();
+                categoryGroup2.setId(2L);
+                categoryGroup2.setCode("MONEY");
+                categoryGroup2.setName("Money");
+
+                CategoryGroup categoryGroup3 = new CategoryGroup();
+
+                categoryGroup3.setId(3L);
+                categoryGroup3.setCode("DEPT");
+                categoryGroup3.setName("Dept");
+
+                if(categoryGroupRepository.findAll().isEmpty()){
+                    categoryGroupRepository.insert(categoryGroup1);
+                    categoryGroupRepository.insert(categoryGroup2);
+                    categoryGroupRepository.insert(categoryGroup3);
+                }
 //                if(serviceRepository.findAll().isEmpty()){
 //                    Service service1 = new Service();
 //                    service1.setId(1L);

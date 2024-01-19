@@ -6,24 +6,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
-@Document(collection = "transactionGroup")
-public class TransactionGroup {
+@Document(collection = "categoryGroup")
+public class CategoryGroup {
     @Id
     private Long id;
     @Transient
-    public static final String SEQUENCE_NAME = "group_sequence";
+    public static final String SEQUENCE_NAME = "category_group_sequence";
     private String name;
     private String code;
     private List<Category> categoryList;
-    private Long userID;
 
-    public Long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
 
     public Long getId() {
         return id;
