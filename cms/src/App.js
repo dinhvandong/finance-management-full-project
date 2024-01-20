@@ -18,7 +18,8 @@ import MultiLevelMenu from './pages/MultiLevelMenu';
 
 const App = () => {
   // const routes = routesData.routes;
-  const isAuthenticated = false;
+ // const isAuthenticated = false;
+ //isAuthenticated={isAuthenticated}
   return (
     <BrowserRouter>
       <Routes>
@@ -26,20 +27,20 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route
           path="/dashboard"
-          element={<PrivateRoute component={Dashboard} isAuthenticated={isAuthenticated} />}
+          element={<PrivateRoute component={Dashboard}  />}
         />
-        <Route path="/admin" element={<PrivateRoute component={Admin} isAuthenticated={isAuthenticated} />}></Route>
-        <Route path="/admin/typography" element={<PrivateRoute component={Typography} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/helperclasses" element={<PrivateRoute component={HelperClasses} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/widgets" element={<PrivateRoute component={Widgets} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/ui" element={<PrivateRoute component={UserInterface} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/form" element={<PrivateRoute component={Form} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/tables" element={<PrivateRoute component={Tables} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/medias" element={<PrivateRoute component={Medias} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/charts" element={<PrivateRoute component={Charts} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/examplepages" element={<PrivateRoute component={ExamplePages} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/maps" element={<PrivateRoute component={Maps} isAuthenticated={isAuthenticated} />} />
-        <Route path="/admin/mlm" element={<PrivateRoute component={MultiLevelMenu} isAuthenticated={isAuthenticated} />} />
+        <Route path="/admin" element={<PrivateRoute component={Admin}  />}></Route>
+        <Route path="/admin/typography" element={<PrivateRoute component={Typography}  />} />
+        <Route path="/admin/helperclasses" element={<PrivateRoute component={HelperClasses}  />} />
+        <Route path="/admin/widgets" element={<PrivateRoute component={Widgets}  />} />
+        <Route path="/admin/ui" element={<PrivateRoute component={UserInterface}  />} />
+        <Route path="/admin/form" element={<PrivateRoute component={Form}  />} />
+        <Route path="/admin/tables" element={<PrivateRoute component={Tables}  />} />
+        <Route path="/admin/medias" element={<PrivateRoute component={Medias}  />} />
+        <Route path="/admin/charts" element={<PrivateRoute component={Charts}  />} />
+        <Route path="/admin/examplepages" element={<PrivateRoute component={ExamplePages}  />} />
+        <Route path="/admin/maps" element={<PrivateRoute component={Maps}  />} />
+        <Route path="/admin/mlm" element={<PrivateRoute component={MultiLevelMenu}  />} />
 
       </Routes>
     </BrowserRouter>

@@ -12,11 +12,8 @@ import vn.vti.moneypig.services.CategoryGroupService;
 @RestController
 @RequestMapping("/api/category-group")
 public class CategoryGroupController {
-
     @Autowired
     CategoryGroupService categoryGroupService;
-
-
     @GetMapping("/findAll")
     public ResponseEntity<?> findAll(){
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, categoryGroupService.findAll(),"success"));

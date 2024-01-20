@@ -1,21 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import iconImg from '../assets/twemoji_pig-face.png'
+import {login} from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticated } from '../../src/utils/localStorage';
 
 const Login = () => {
-  // const navigate = useNavigate
-  // ();
-  // const handleRedirect = () => {
-  //   console.log("handleRedirect")
-  //   navigate('/login');
-  // };
-  // useEffect(() => {
-  //   handleRedirect();
-
-  // }, []);
-
-
+  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
-
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
@@ -31,23 +22,28 @@ const Login = () => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Perform login logic here using the username and password values
-    console.log('Username:', username);
-    console.log('Password:', password);
-
-    // Reset the form
+    const result = await login(username, password);
+    navigate('/admin');
     setUsername('');
     setPassword('');
   };
+
+  const handleRedirect = () => {
+    console.log("handleRedirect")
+    navigate('/admin');
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+     handleRedirect();
+    }
+  }, [isAuthenticated]);
   return (
     <div className='h-screen w-screen items-center bg-[#4C1A71] flex justify-center'>
-
       <form className="w-1/4 h-auto bg-gray-100 p-8 rounded shadow">
         <img src={iconImg} alt='pig-icon' className='w-[100px] h-[100px]' />
-        {/* <h2 className="text-2xl font-bold mb-4">Login</h2> */}
         <div className="mb-4 mt-4">
           <label htmlFor="username" className="block mb-2">Username</label>
           <input

@@ -8,15 +8,15 @@ export const isAuthenticated = async () => {
   if (token) {
     try {
       // Make an API request to find the user based on the token
-      const response = await axios.get('/api/user', {
+      const response = await axios.get('/api/user/findByToken', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
       // Check the response and perform necessary checks
-      const user = response.data;
-      if (user) {
+      const data = response.data;
+      if (data.success === 200) {
         // Additional checks if needed
 
         return true;
