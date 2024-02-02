@@ -8,14 +8,27 @@ public class Transaction {
     @Id
     private  Long id;
     private String name;
+
+    public static final String SEQUENCE_NAME = "transaction_sequence";
+
+    private Long userId;
     private String note;
     private Long money;
     private String withPerson;
     private int groupID;
     private int categoryID;
-    private  int createdDate;
+    private  Long createdDate;
     private List<String> listImages;
-    private boolean active;
+    private int active;
+
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
     public int getGroupID() {
         return groupID;
@@ -33,11 +46,11 @@ public class Transaction {
         this.categoryID = categoryID;
     }
 
-    public boolean isActive() {
+    public int getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(int active) {
         this.active = active;
     }
 
@@ -81,11 +94,11 @@ public class Transaction {
         this.withPerson = withPerson;
     }
 
-    public int getCreatedDate() {
+    public Long getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(int createdDate) {
+    public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
 

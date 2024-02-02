@@ -179,15 +179,6 @@ const Sidebar = (props) => {
   const styleMenu2 = tab === "tab2" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   const styleMenu3 = tab === "tab3" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   const styleMenu4 = tab === "tab4" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu5 = tab === "tab5" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu6 = tab === "tab6" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu7 = tab === "tab7" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu8 = tab === "tab8" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu9 = tab === "tab9" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu10 = tab === "tab10" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu11 = tab === "tab11" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
-  const styleMenu12 = tab === "tab12" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]s";
-
   return (
     <div className="flex flex-row w-full h-screen border-2 mr-5 ">
         <div className="flex flex-col w-full">
@@ -202,11 +193,7 @@ const Sidebar = (props) => {
               onMouseLeave={handleMouseLeave}
               className={`flex flex-row justify-start items-center ${styleMenu1} hover:text-red-600`}
             >
-              {/* <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered ? home2 : home1}
-                alt="Image"
-              /> */}
+          
               <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
               <div className="text-sm">Người dùng</div>
             </button>
@@ -216,11 +203,7 @@ const Sidebar = (props) => {
               onMouseLeave={handleMouseLeave2}
               className={`flex flex-row justify-start items-center ${styleMenu2} hover:text-red-600`}
             >
-              {/* <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered2 ? text2 : text1}
-                alt=""
-              /> */}
+             
               <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
 
               <div className="text-sm">Danh mục</div>
@@ -231,11 +214,7 @@ const Sidebar = (props) => {
               onMouseLeave={handleMouseLeave3}
               className={`flex flex-row justify-start items-center ${styleMenu3} hover:text-red-600`}
             >
-              {/* <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered3 ? classes2 : classes1}
-                alt=""
-              /> */}
+            
 
               <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
               <div className="text-sm">Nhóm danh mục</div>
@@ -246,28 +225,12 @@ const Sidebar = (props) => {
               onMouseLeave={handleMouseLeave4}
               className={`flex flex-row justify-start items-center ${styleMenu4} hover:text-red-600`}
             >
-              {/* <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered4 ? widget2 : widget1}
-                alt=""
-              /> */}
+             
 
               <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
               <div className=" text-sm">Giao dịch</div>
             </button>
-            {/* <button
-              onClick={() => gotoUI()}
-              onMouseEnter={handleMouseEnter5}
-              onMouseLeave={handleMouseLeave5}
-              className={`flex flex-row justify-start items-center ${styleMenu5} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered5 ? ui2 : ui1}
-                alt=""
-              />
-              <div className="font-bold">User Interface UI</div>
-            </button> */}
+           
 
           </div>
 

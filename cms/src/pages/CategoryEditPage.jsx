@@ -26,7 +26,7 @@ const CategoryEditPage = () => {
         <HeaderAdmin />
         <div className="flex flex-row w-full">
         <div>
-            <Sidebar menu="tab1" />
+            <Sidebar menu="tab2" />
           </div>
           <div className="flex w-[100%]   flex-row justify-center">     
                <CategoryEdit id = {id} />

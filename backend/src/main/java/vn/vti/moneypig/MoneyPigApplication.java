@@ -9,9 +9,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @ComponentScan(basePackages = "vn.vti.moneypig")
 @EnableMongoRepositories(basePackages = "vn.vti.moneypig.repositories")
 public class MoneyPigApplication {
-
 	public static void main(String[] args) {
 		SpringApplication.run(MoneyPigApplication.class, args);
 	}
-
 }
