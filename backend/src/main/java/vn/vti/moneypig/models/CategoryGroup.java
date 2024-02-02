@@ -14,8 +14,27 @@ public class CategoryGroup {
     public static final String SEQUENCE_NAME = "category_group_sequence";
     private String name;
     private String code;
+    private String icon;
+
+    private  int status;
     private List<Category> categoryList;
 
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
     public Long getId() {
         return id;

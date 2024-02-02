@@ -1,33 +1,23 @@
 // utils/localStorage.js
-
 import axios from 'axios';
+const API_URL = 'http://localhost:8080/api'; // Replace with your API URL
 
 export const isAuthenticated = async () => {
   const token = localStorage.getItem('token');
-
   if (token) {
     try {
-      // Make an API request to find the user based on the token
-      const response = await axios.get('/api/user/findByToken', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Check the response and perform necessary checks
-      const data = response.data;
-      if (data.success === 200) {
-        // Additional checks if needed
-
+      const response = await axios.get(`${API_URL}/user/findToken?token=${token}`, {
+        withCredentials: true,
+      },);
+      const user = response.data;
+      if (user.data) {
         return true;
       } else {
         return false;
       }
     } catch (error) {
-      // API request or validation failed
       return false;
     }
   }
-
-  return false; // No token found
+  return false;
 };

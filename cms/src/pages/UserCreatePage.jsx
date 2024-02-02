@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
-import HomeAdmin from './../components/admin/HomeAdmin';
-import Sidebar from './../components/admin/SideBar';
-import HeaderAdmin from './../components/admin/HeaderAdmin';
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { isAuthenticated } from "../utils/localStorage";
+import { isAuthenticated } from '../utils/localStorage';
+import HeaderAdmin from '../components/admin/HeaderAdmin';
+import Sidebar from '../components/admin/SideBar';
+import HomeAdmin from '../components/admin/HomeAdmin';
+import UserCreate from '../components/admin/UserCreate';
 
-
-const Admin = () => {
+const UserCreatePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -24,15 +24,16 @@ const Admin = () => {
     <div>
       <HeaderAdmin />
       <div className="flex flex-row w-full">
-        <div className='w-[15%]'>
+        <div >
           <Sidebar menu="tab1" />
         </div>
-        <div className="flex w-[100%] flex-row justify-center">
-          <HomeAdmin />
+        <div className="flex w-[100%] flex-row justify-center">     
+             <UserCreate />
         </div>
       </div>
     </div>
   );
-};
 
-export default Admin;
+}
+
+export default UserCreatePage

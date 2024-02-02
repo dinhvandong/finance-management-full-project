@@ -26,18 +26,11 @@ public class UserService {
     public User createUser(User user) {
         long _id = sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME);
         user.setId(_id);
-        System.out.println("hahaha:"+ user.toString());
-        User userResult = userRepository.insert(user);
-        System.out.println("userResult:"+userResult.toString());
-
-        return userResult;
+        user.setStatus(1);
+        return userRepository.insert(user);
     }
-//    public User getUserById(Long id) {
-//        return userRepository.findById(id).orElse(null);
-//    }
     public User findByUsername(String username) {
         Optional<User> optionalUser = userRepository.findByUsername(username);
-        System.out.println("OKOK");
         return optionalUser.orElse(null);
         //  return userRepository.findByUsername(username).get();
     }
@@ -49,7 +42,8 @@ public class UserService {
 
     public User findById(Long id){
         if(userRepository.findById(id).isPresent()){
-            userRepository.findById(id).get();
+            System.out.println("FindbyID:"+ id);
+           return  userRepository.findById(id).get();
         }
         return null;
     }
@@ -58,12 +52,17 @@ public class UserService {
         return userRepository.findById(id);
     }
 
-    public User updateUser(Long id, User updatedUser) {
+    public User updateUser(User updatedUser) {
+        Long id = updatedUser.getId();
         Optional<User> existingUser = userRepository.findById(id);
         if (existingUser.isPresent()) {
             User user = existingUser.get();
             user.setUsername(updatedUser.getUsername());
             user.setEmail(updatedUser.getEmail());
+            user.setPhone(updatedUser.getPhone());
+            user.setAddress(updatedUser.getAddress());
+            user.setAvatar(updatedUser.getAvatar());
+            user.setStatus(updatedUser.getStatus());
             // Update other fields if needed
             return userRepository.save(user);
         } else {

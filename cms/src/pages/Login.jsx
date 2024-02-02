@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import iconImg from '../assets/twemoji_pig-face.png'
-// import { login } from '../services/api';
-//import { useNavigate } from 'react-router-dom';
-import { isAuthenticated } from '../../src/utils/localStorage';
+import { login } from '../services/api';
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticated } from '../utils/localStorage';
 
 const Login = () => {
- //const navigate = useNavigate();
+ const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -25,42 +25,27 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-   // const result = await login(username, password);
+    console.log("username:", username);
+    console.log("password:", password);
+    const result = await login(username, password);
+    if(result.success===200){
+      navigate('/admin');
+    }
    // navigate('/admin');
     setUsername('');
     setPassword('');
   };
 
-  // const handleRedirect = () => {
-  //   navigate('/admin');
-  // };
-
-  // useEffect(() => {
-  //   if (isAuthenticated) {
-  //    handleRedirect();
-  //   }
-  // }, [isAuthenticated]);
-
-  
   useEffect(() => {
-
     const checkAuthentication = async () => {
       const authenticated = await isAuthenticated();
-      // console.log('Authenticated:', authenticated);
       if (authenticated) {
-        // handleRedirect();
-       // navigate('/admin');
+         navigate('/admin');
       } else {
-  
       }
-      // Perform actions based on the authentication status
     };
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     checkAuthentication();
-    // if (!isAuthenticated) {
-    //  //handleRedirect();
-    //  navigate('/login');
-
-    // }
   }, []);
   return (
     <div className='h-screen w-screen items-center bg-[#4C1A71] flex justify-center'>

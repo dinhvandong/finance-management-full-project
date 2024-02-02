@@ -1,18 +1,11 @@
-import React, { useState } from "react";
-import tasks from "../../assets/tasks.png";
-import tickets from "../../assets/tickets.png";
-import comments from "../../assets/comments.png";
-import visitors from "../../assets/visitors.png";
-import bieudo from "../../assets/bieudo.png";
-import bieudo2 from "../../assets/bieudo2.png";
-import arrow3 from "../../assets/arrow3.png";
-import UserTable from './../table/UserTable';
-import { Button } from "antd";
-import { GotoCreateNew } from "../../utils/navigationPage";
-import { useNavigate } from "react-router-dom";
+import { Button } from 'antd';
+import React, { useState } from 'react'
 import { IoMdSearch } from 'react-icons/io';
+import UserTable from '../table/UserTable';
+import { useNavigate } from 'react-router-dom';
+import CategoryGroupTable from '../table/CategoryGroupTable';
 
-const UserInterfaceAdmin = () => {
+const CategoryGroup = () => {
   const [isOn, setIsOn] = useState(false);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,11 +23,11 @@ const UserInterfaceAdmin = () => {
   }
   return (
     <div className='w-full h-auto flex flex-col p-3'>
-    <div className="m-5 flex justify-start md:justify-center sm:justify-center lg:justify-start">
-        <p className="font-bold">USERS LIST</p>
+      <div className="m-5 flex justify-start md:justify-center sm:justify-center lg:justify-start">
+        <p className="font-bold">CATEGORY GROUP</p>
       </div>
       <Button className="w-[120px] text-center ml-5 mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
-      NEW USER
+      NEW GROUP
     </Button>
     <div className='flex m-5 flex-row'>
                 <div className='flex gap-3 items-center'>
@@ -62,13 +55,12 @@ const UserInterfaceAdmin = () => {
                     </form>
                 </div>
             </div>
-      <div className="flex w-[100%] flex-row justify-center">
-        <UserTable />
+      <div className="flex w-[100%]   flex-row justify-center">
+        <CategoryGroupTable />
 
       </div>
       
-    </div>
-  );
-};
+    </div>);
+}
 
-export default UserInterfaceAdmin;
+export default CategoryGroup

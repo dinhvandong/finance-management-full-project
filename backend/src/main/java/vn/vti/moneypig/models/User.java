@@ -14,7 +14,9 @@ public class User {
     private String googleId;
     private String phone;
     private int status;
-    private  int dateOfBirth;
+    private  long dateOfBirth;
+
+    private  long createdDate;
     private  int gender;
     private String address;
     private String avatar;
@@ -33,6 +35,22 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password  = password;
+    }
+
+    public long getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(long dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public long getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(long createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getUsername() {
@@ -72,12 +90,6 @@ public class User {
     }
     public void setWorkAddress(Address workAddress) {
         this.workAddress = workAddress;
-    }
-    public int getDateOfBirth() {
-        return dateOfBirth;
-    }
-    public void setDateOfBirth(int dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
     public int getGender() {
         return gender;

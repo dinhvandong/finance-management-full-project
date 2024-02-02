@@ -16,7 +16,7 @@ import vn.vti.moneypig.models.User;
 //import vn.vti.moneypig.otp.OTPService;
 import vn.vti.moneypig.services.FirebaseService;
 import vn.vti.moneypig.services.UserService;
-
+@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -24,7 +24,6 @@ public class UserController {
     private final JwtInterceptor jwtInterceptor;
     private final JwtTokenStore jwtTokenStore;
     private final FirebaseService firebaseService;
-//    private final OTPService otpService;
     @Autowired
     public UserController(UserService userService, JwtInterceptor jwtInterceptor,
                           JwtTokenStore jwtTokenStore, FirebaseService firebaseService) {
@@ -49,21 +48,129 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
     }
-
-    @GetMapping("/findAll")
-    public ResponseEntity<?> findAll(){
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, userService.findAll(),"success"));
-    }
-    @GetMapping("/findById")
-    public ResponseEntity<?> findById(@RequestParam Long id){
-        if(userService.findById(id) == null){
+    @GetMapping("/findToken")
+    public ResponseEntity<?> findByTk(@RequestParam String token) {
+       // String token = JwtInterceptor.getInstance().extractTokenFromRequest(request);
+        if(token.isBlank()){
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            Claims claims = JWTUtility.getInstance().parseToken(token);
+            String username = claims.getSubject();
+            if (username != null) {
+                User user = userService.findByUsername(username);
+                if (user != null) {
+                    return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, user,"user exist"));
+                }else {
+                    return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"cannot created"));
+                }
+            }
+        }
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+    }
+
+    @PostMapping("/insert")
+    public ResponseEntity<?> insert(@RequestParam String token, @RequestBody User user)
+    {
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+        token = "Bearer " + token;
+
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            User response =  userService.createUser(user);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"user not exist"));
         }else {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, userService.findById(id),"success"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<?> update(@RequestParam String token, @RequestBody User user)
+    {
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+        token = "Bearer " + token;
+
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            User response =  userService.updateUser(user);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"user not exist"));
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<?> delete(@RequestParam String token, @RequestParam Long id)
+    {
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+        token = "Bearer " + token;
+
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            User foundUser = userService.findById(id);
+            foundUser.setStatus(0);
+            User response =  userService.updateUser(foundUser);
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"user not exist"));
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+
+    }
+
+
+    @PostMapping("/findAll")
+    public ResponseEntity<?> findAll(@RequestParam String token){
+
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+        token = "Bearer " + token;
+
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, userService.getAllUsers(),"success"));
+        }else {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
         }
     }
+    @GetMapping("/findById")
+    public ResponseEntity<?> findById(@RequestParam String token,@RequestParam Long id){
+
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+        token = "Bearer " + token;
+
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated)
+        {
+            if(userService.findById(id) == null)
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+            }else
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, userService.findById(id),"success"));
+            }
+        }else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
+        }
+
+    }
     @GetMapping("/new-access-token")
-    public ResponseEntity<?> newAccessToken(){
+    public ResponseEntity<?> newAccessToken(@RequestParam String token){
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, userService.findAll(),"success"));
     }
     @DeleteMapping("/logout")

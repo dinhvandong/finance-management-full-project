@@ -14,7 +14,7 @@ const HomeAdmin = () => {
   };
 
   return (
-    <div className="bg-[#E9E9E9] flex flex-col justify-center w-full">
+    <div className=" flex flex-col justify-center w-screen">
       <div className="m-10 flex justify-start md:justify-center sm:justify-center lg:justify-start">
         <p>DASHBOARD</p>
       </div>

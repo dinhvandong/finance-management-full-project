@@ -15,7 +15,7 @@ const TypographyAdmin = () => {
   };
 
   return (
-    <div className="bg-[#E9E9E9] flex flex-col justify-center w-full">
+    <div className="bg-[#74d658] flex flex-col justify-center w-full">
       <div className="m-10 flex justify-start md:justify-center sm:justify-center lg:justify-start">
         <p>USERS LIST</p>
       </div>

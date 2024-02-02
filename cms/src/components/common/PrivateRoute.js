@@ -1,29 +1,42 @@
-import { isAuthenticated } from '../../utils/localStorage';
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { isAuthenticated } from '../../utils/localStorage';
+// import React, { useEffect, useState } from 'react';
+// import { useNavigate } from 'react-router-dom';
 
-const PrivateRoute = ({ component: Component,...rest }) => {
-   const navigate = useNavigate();
-  const handleRedirect = () => {
-    console.log("handleRedirect")
-    navigate('/login');
-  };
- 
-  useEffect(() => {
-    if (!isAuthenticated) {
-     handleRedirect();
-    }
-  }, [isAuthenticated]);
+// const PrivateRoute = ({ component: Component, ...rest }) => {
+//   const [isLogin, setIsLogin] = useState(false);
+//   const navigate = useNavigate();
+//   const handleRedirect = () => {
+//     navigate('/login');
+//   };
 
-  return (
-    isAuthenticated ? (
-      <Component/>
-    ) :
-      (
-        <>
-        </>
-      )
-  );
-};
+//   const checkAuthentication = async () => {
+//     const authenticated = await isAuthenticated();
+//     console.log('Authenticated:', authenticated);
+//     if (authenticated===false) {
+//       navigate('/login');
+//       setIsLogin(false);
+//     } else {
+//       setIsLogin(true);
 
-export default PrivateRoute;
+//     }
+//   };
+//   useEffect(() => {
+
+
+//     checkAuthentication();
+
+
+//   }, [isLogin]);
+
+//   return (
+//     isLogin ? (
+//       <Component />
+//     ) :
+//       (
+//         <>
+//         </>
+//       )
+//   );
+// };
+
+// export default PrivateRoute;

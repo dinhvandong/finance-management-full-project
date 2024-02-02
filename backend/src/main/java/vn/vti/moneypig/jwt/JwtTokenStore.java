@@ -36,8 +36,6 @@ public class JwtTokenStore {
 
     public boolean isTokenPresent(String username, String token) {
         String storedToken = tokenStore.get(username);
-        System.out.println("storedToken:"+ storedToken);
-        System.out.println("token:"+ token);
         return storedToken != null && storedToken.equals(token);
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { BiChevronDown } from "react-icons/bi";
-
+import { FaLayerGroup } from "react-icons/fa";
 import home1 from "../../assets/home2.png";
 import home2 from "../../assets/home2red.png";
 import text1 from "../../assets/text1.png";
@@ -27,7 +27,9 @@ import map2 from "../../assets/map2.png";
 import arrow1 from "../../assets/arrow.png";
 import arrow2 from "../../assets/arrow2.png";
 // import HeaderAdmin from "./HeaderAdmin";
-
+import { BiSolidCategory } from "react-icons/bi";
+import { FaHome } from "react-icons/fa";
+import { AiOutlineTransaction } from "react-icons/ai";
 const Sidebar = (props) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -133,6 +135,14 @@ const Sidebar = (props) => {
   function gotoAdmin() {
     navigate("/admin");
   }
+  function gotoCategory() {
+    navigate("/admin/categories");
+
+  }
+  function gotoCategoryGroup() {
+    navigate("/admin/categoryGroup");
+
+  }
   function gotoHelperClasses() {
     navigate("/admin/helperclasses");
   }
@@ -179,71 +189,56 @@ const Sidebar = (props) => {
   const styleMenu12 = tab === "tab12" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]s";
 
   return (
-    <div>
-      <div className="flex flex-row w-full">
-        <div className="flex flex-col justify-center w-full">
-          <div className="flex flex-col justify-center bg-[#F06B02]">
-            <div className="flex justify-start">
-              <img
-                className="w-[50px] h-[50px] mt-3 ml-3"
-                src="https://cdn-icons-png.flaticon.com/128/236/236832.png"
-                alt=""
-              />
-            </div>
-            <div className="text-white mt-3 ml-3 mb-3">
-              <p>John Doe</p>
-              <div className="flex flex-row">
-                <p className="flex justify-start items-start w-[50%]">
-                  john.doe@example.com
-                </p>
-                {/* <button className="flex justify-end items-end w-[50%] mr-5">
-                  <BiChevronDown />
-                </button> */}
-              </div>
-            </div>
+    <div className="flex flex-row w-full h-screen border-2 mr-5 ">
+        <div className="flex flex-col w-full">
+
+          <div className="font-bold bg-blue-500">
+            <p className="m-2">Danh mục</p>
           </div>
-          <div className="font-bold bg-[#EDEDED]">
-            <p className="m-2">MAIN NAVIGATION</p>
-          </div>
-          <div className="flex flex-col justify-center">
+          <div className="flex flex-col">
             <button
               onClick={() => gotoAdmin()}
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               className={`flex flex-row justify-start items-center ${styleMenu1} hover:text-red-600`}
             >
-              <img
+              {/* <img
                 className="w-[30px] h-[30px] m-3"
                 src={isHovered ? home2 : home1}
                 alt="Image"
-              />
-              <div className="font-bold">Home</div>
+              /> */}
+              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
+              <div className="text-sm">Người dùng</div>
             </button>
             <button
-              onClick={() => gotoTypography()}
+              onClick={() => gotoCategory()}
               onMouseEnter={handleMouseEnter2}
               onMouseLeave={handleMouseLeave2}
               className={`flex flex-row justify-start items-center ${styleMenu2} hover:text-red-600`}
             >
-              <img
+              {/* <img
                 className="w-[30px] h-[30px] m-3"
                 src={isHovered2 ? text2 : text1}
                 alt=""
-              />
-              <div className="font-bold">Typography</div>
+              /> */}
+              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
+
+              <div className="text-sm">Danh mục</div>
             </button>
             <button
-              onClick={()=>gotoHelperClasses()}
+              onClick={() => gotoCategoryGroup()}
               onMouseEnter={handleMouseEnter3}
               onMouseLeave={handleMouseLeave3}
               className={`flex flex-row justify-start items-center ${styleMenu3} hover:text-red-600`}
             >
-              <img
+              {/* <img
                 className="w-[30px] h-[30px] m-3"
                 src={isHovered3 ? classes2 : classes1}
                 alt=""
-              />
-              <div className="font-bold">Helper Classes</div>
+              /> */}
+
+              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
+              <div className="text-sm">Nhóm danh mục</div>
             </button>
             <button
               onClick={() => gotoWidgets()}
@@ -251,14 +246,16 @@ const Sidebar = (props) => {
               onMouseLeave={handleMouseLeave4}
               className={`flex flex-row justify-start items-center ${styleMenu4} hover:text-red-600`}
             >
-              <img
+              {/* <img
                 className="w-[30px] h-[30px] m-3"
                 src={isHovered4 ? widget2 : widget1}
                 alt=""
-              />
-              <div className="font-bold">Widgets</div>
+              /> */}
+
+              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
+              <div className=" text-sm">Giao dịch</div>
             </button>
-            <button
+            {/* <button
               onClick={() => gotoUI()}
               onMouseEnter={handleMouseEnter5}
               onMouseLeave={handleMouseLeave5}
@@ -270,115 +267,12 @@ const Sidebar = (props) => {
                 alt=""
               />
               <div className="font-bold">User Interface UI</div>
-            </button>
-            <button
-              onClick={() => gotoForm()}
-              onMouseEnter={handleMouseEnter6}
-              onMouseLeave={handleMouseLeave6}
-              className={`flex flex-row justify-start items-center ${styleMenu6} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered6 ? form2 : form1}
-                alt=""
-              />
-              <div className="font-bold">Form</div>
-            </button>
-            <button
-              onClick={() => gotoTables()}
-              onMouseEnter={handleMouseEnter7}
-              onMouseLeave={handleMouseLeave7}
-              className={`flex flex-row justify-start items-center ${styleMenu7} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered7 ? table2 : table1}
-                alt=""
-              />
-              <div className="font-bold">Tables</div>
-            </button>
-            <button
-              onClick={() => gotoMedias()}
-              onMouseEnter={handleMouseEnter8}
-              onMouseLeave={handleMouseLeave8}
-              className={`flex flex-row justify-start items-center ${styleMenu8} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered8 ? media2 : media1}
-                alt=""
-              />
-              <div className="font-bold">Medias</div>
-            </button>
-            <button
-              onClick={() => gotoCharts()}
-              onMouseEnter={handleMouseEnter9}
-              onMouseLeave={handleMouseLeave9}
-              className={`flex flex-row justify-start items-center ${styleMenu9} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered9 ? chart2 : chart1}
-                alt=""
-              />
-              <div className="font-bold">Charts</div>
-            </button>
-            <button
-              onClick={() => gotoExamplePages()}
-              onMouseEnter={handleMouseEnter10}
-              onMouseLeave={handleMouseLeave10}
-              className={`flex flex-row justify-start items-center ${styleMenu10} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered10 ? page2 : page1}
-                alt=""
-              />
-              <div className="font-bold">Example Pages</div>
-            </button>
-            <button
-              onClick={() => gotoMaps()}
-              onMouseEnter={handleMouseEnter11}
-              onMouseLeave={handleMouseLeave11}
-              className={`flex flex-row justify-start items-center ${styleMenu11} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered11 ? map2 : map1}
-                alt=""
-              />
-              <div className="font-bold">Maps</div>
-            </button>
-            <button
-              onClick={() => gotoMLM()}
-              onMouseEnter={handleMouseEnter12}
-              onMouseLeave={handleMouseLeave12}
-              className={`flex flex-row justify-start items-center ${styleMenu12} hover:text-red-600`}
-            >
-              <img
-                className="w-[30px] h-[30px] m-3"
-                src={isHovered12 ? arrow2 : arrow1}
-                alt=""
-              />
-              <div className="font-bold">Multi Level Menu</div>
-            </button>
+            </button> */}
+
           </div>
-          <div className="border-t-2">
-            <p className="mt-3 ml-3">
-              <span>&copy; 2016</span>
-              <span className="font-bold text-red-600">
-                {" "}
-                AdminBSB - Material Design.
-              </span>
-            </p>
-            <p className="mb-3 ml-3">
-              <span className="font-bold">Version:</span>
-              <span className=""> 1.0.0</span>
-            </p>
-          </div>
+
         </div>
       </div>
-    </div>
   );
 };
 

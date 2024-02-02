@@ -12,6 +12,9 @@ import vn.vti.moneypig.repositories.ServiceRepository;
 import vn.vti.moneypig.repositories.UserRepository;
 import vn.vti.moneypig.security.PasswordEncoder;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Configuration
 public class Database {
 
@@ -23,8 +26,19 @@ public class Database {
                 User user = new User();
                 user.setId(1L);
                 user.setUsername("admin");
+                user.setEmail("admin@gmail.com");
+                user.setPhone("84965741051");
                 user.setPassword(PasswordEncoder.getInstance().encodePassword("A123456a@"));
                 user.setStatus(1);
+                user.setGender(1);
+                user.setDateOfBirth(20011010);
+                LocalDate currentDate = LocalDate.now();
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+                String formattedDate = currentDate.format(formatter);
+
+                long longDate = Long.parseLong(formattedDate);
+                user.setCreatedDate(longDate);
+
                 if(userRepository.findAll().isEmpty())
                     userRepository.insert(user);
 

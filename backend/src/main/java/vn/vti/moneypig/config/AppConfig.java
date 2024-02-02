@@ -11,8 +11,8 @@ import vn.vti.moneypig.jwt.JwtInterceptor;
 public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new JwtInterceptor())
-                .addPathPatterns("/api/test/**",
-                        "/api/user/**"); // Add the API endpoint pattern you want to filter
+//        registry.addInterceptor(new JwtInterceptor())
+//                .addPathPatterns("/api/test/**",
+//                        "/api/user/**"); // Add the API endpoint pattern you want to filter
     }
 }
