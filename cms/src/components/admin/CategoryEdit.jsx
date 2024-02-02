@@ -3,23 +3,18 @@ import { useNavigate } from 'react-router-dom';
 import { getUserById, updateUser } from '../../services/api';
 
 const CategoryEdit = (props) => {
-  const navigate = useNavigate();
-  const [user, setUser] = useState          (null);
-  const { id } = props;
+    const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const { id } = props;
     const [searchTerm, setSearchTerm] = useState('');
-
-    const gotoCreateNew =()=>{
+    const gotoCreateNew = () => {
         navigate('/admin/users/create-new');
-
     }
-    const gotoUserList = ()=>{
+    const gotoUserList = () => {
         navigate('/admin/users');
-
     }
-    
-
     const [formData, setFormData] = useState({
-        id:'',
+        id: '',
         username: '',
         email: '',
         password: '',
@@ -32,30 +27,24 @@ const CategoryEdit = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setFormData({id:id});
-        const result = await updateUser                (formData);
-        console.log("formData",result);
-
+        setFormData({ id: id });
+        const result = await updateUser(formData);
         if (result.success === 200) {
             navigate('/admin/users');
         }
-
-        // Reset form data
         setFormData({ name: '', email: '', password: '' });
     };
-
-
     useEffect(() => {
         const fetchUserById = async () => {
-          try {
-            const user = await getUserById(id);
-            setFormData(user);
-            setUser(user);
-          } catch (error) {
-          }
+            try {
+                const user = await getUserById(id);
+                setFormData(user);
+                setUser(user);
+            } catch (error) {
+            }
         };
         fetchUserById();
-      }, []);
+    }, []);
     return (
         <div className='w-full h-auto flex flex-col p-3'>
             {/* <p className='text-sm ml-10'> <span className='text-gray-500'>Trang chủ /</span>&nbsp;Quản trị viên</p> */}
@@ -106,7 +95,6 @@ const CategoryEdit = (props) => {
                         required
                     />
                 </div>
-               
                 <div className="mb-4">
                     <label htmlFor="phone" className="block mb-2 font-medium">
                         Phone Number: <span className="text-lg text-red-500">*</span>
@@ -121,7 +109,6 @@ const CategoryEdit = (props) => {
                         required
                     />
                 </div>
-               
                 <button
                     type="submit"
                     className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
