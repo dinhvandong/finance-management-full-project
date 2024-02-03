@@ -1,5 +1,6 @@
 // api.js
 import axios from 'axios';
+export const API_URL_IMAGE = "http://localhost:8080/api/images/";
 
 const API_URL = 'http://localhost:8080/api'; // Replace with your API URL
 axios.defaults.baseURL = 'http://localhost:8080'; // Replace with your backend API's base URL
@@ -92,4 +93,58 @@ export const deleteUser = async (userID) => {
     throw error;
   }
 };
+
+
+export const getGroups = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category-group/findAll?token=${token}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const createGroups = async (groupData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category-group/insert?token=${token}`, groupData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const updateGroups = async (groupData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category-group/update?token=${token}`, groupData);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const convertDateFormat = (inputDate) => {
+  let inpuDateString = inputDate + "";
+  const year = inpuDateString.substring(0, 4);
+    const month = inpuDateString.substring(4, 6);
+    const day = inpuDateString.substring(6, 8);
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+};
+
+export const uploadFile = async (file) => {
+  const formData = new FormData();
+  const token = localStorage.getItem("token");
+  formData.append('file', file);
+  return await axios.post(`${API_URL}/images?token=${token}`, formData)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      throw error;
+    });
+};
+
 // Add more API functions as needed

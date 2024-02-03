@@ -4,6 +4,7 @@ import { isAuthenticated } from '../utils/localStorage';
 import HeaderAdmin from '../components/admin/HeaderAdmin';
 import Sidebar from '../components/admin/SideBar';
 import UserCreate from '../components/admin/UserCreate';
+import CategoryGroupCreate from '../components/admin/CategoryGroupCreate';
 
 const CategoryGroupCreatePage = () => {
     const navigate = useNavigate();
@@ -24,10 +25,10 @@ const CategoryGroupCreatePage = () => {
         <HeaderAdmin />
         <div className="flex flex-row w-full">
           <div >
-            <Sidebar menu="tab1" />
+            <Sidebar menu="tab3" />
           </div>
           <div className="flex w-[100%] flex-row justify-center">     
-               <UserCreate />
+               <CategoryGroupCreate />
           </div>
         </div>
       </div>

@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { createUser } from '../../services/api';
+import { API_URL_IMAGE, createUser, uploadFile } from '../../services/api';
 import { IoMdSearch } from 'react-icons/io';
+import { Button, Upload } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import noImage from '../../assets/avatar-default-icon.png'
 
 const UserCreate = () => {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleInputChange = (event) => {
         setSearchTerm(event.target.value);
     };
-    const gotoCreateNew =()=>{
+    const gotoCreateNew = () => {
         navigate('/admin/users/create-new');
 
     }
-    const gotoUserList = ()=>{
+    const gotoUserList = () => {
         navigate('/admin/users');
 
     }
@@ -23,16 +26,43 @@ const UserCreate = () => {
         username: '',
         email: '',
         password: '',
-        phone: ''
+        phone: '',
+        avatar: ''
     });
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
+    const [file, setFile] = useState(noImage);
+
+    const handleFileUpload = async (file) => {
+        // Handle the file upload logic here
+        console.log(file);
+
+        const response = await uploadFile(file);
+        const fileResponse = API_URL_IMAGE + response.data;
+        setFile(fileResponse);
+        console.log("upload-file", response);
+
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            avatar: fileResponse
+          }));
+
+       
+    };
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(formData);
+       // setFormData({avatar: file})
+       console.log("file",file);
+
+       setFormData(prevFormData => ({
+        ...prevFormData,
+        avatar: file
+      }));
+
+        console.log("formData",formData);
         const result = await createUser(formData);
         if (result.success === 200) {
             navigate('/admin/users');
@@ -49,11 +79,11 @@ const UserCreate = () => {
                 <button onClick={gotoUserList} className='text-lg font-semibold'>Danh sách</button>
                 <button className='w-24 h-9 p-4 bg-white text-gray-500 border-black rounded flex justify-center items-center hover:shadow-lg'>Tạo mới</button>
             </div>
-           
+
             <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto overflow-auto">
                 <div className="mb-4">
                     <label htmlFor="name" className="block mb-2 font-medium">
-                        Username: <span className="text-lg text-red-500">*</span>
+                        Họ tên: <span className="text-lg text-red-500">*</span>
                     </label>
                     <input
                         type="text"
@@ -67,7 +97,7 @@ const UserCreate = () => {
                 </div>
                 <div className="mb-4">
                     <label htmlFor="email" className="block mb-2 font-medium">
-                        Email: <span className="text-lg text-red-500">*</span>
+                        Địa chỉ email: <span className="text-lg text-red-500">*</span>
                     </label>
                     <input
                         type="email"
@@ -81,7 +111,7 @@ const UserCreate = () => {
                 </div>
                 <div className="mb-4">
                     <label htmlFor="password" className="block mb-2 font-medium">
-                        Password <span className="text-lg text-red-500">*</span>
+                        Mật khẩu <span className="text-lg text-red-500">*</span>
                     </label>
                     <input
                         type="password"
@@ -93,10 +123,10 @@ const UserCreate = () => {
                         required
                     />
                 </div>
-               
+
                 <div className="mb-4">
                     <label htmlFor="phone" className="block mb-2 font-medium">
-                        Phone Number: <span className="text-lg text-red-500">*</span>
+                        Số điện thoại: <span className="text-lg text-red-500">*</span>
                     </label>
                     <input
                         type="number"
@@ -108,112 +138,31 @@ const UserCreate = () => {
                         required
                     />
                 </div>
-                {/* <div className="mb-4">
-                    <label htmlFor="dateOfBirth" className="block mb-2 font-medium">
-                        Date of Birth: <span className="text-lg text-red-500">*</span>
+
+
+                <div className="mb-4">
+                    <label htmlFor="email" className="block mb-2 font-medium">
+                        Chọn ảnh đại diện: <span className="text-lg text-red-500">*</span>
                     </label>
-                    <input
-                        type="date"
-                        id="dateOfBirth"
-                        name="dateOfBirth"
-                        value={formData.dateOfBirth}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div> */}
-                {/* <div className="mb-4">
-                    <label htmlFor="gender" className="block mb-2 font-medium">
-                        Gender <span className="text-lg text-red-500">*</span>
-                    </label>
-                    <div>
-                        <label htmlFor="male" className="inline-flex items-center mr-4">
-                            <input
-                                type="radio"
-                                id="male"
-                                name="gender"
-                                value="male"
-                                checked={formData.gender === 'male'}
-                                onChange={handleChange}
-                                className="form-radio text-blue-500"
-                                required
-                            />
-                            <span className="ml-2">Male</span>
-                        </label>
-                        <label htmlFor="female" className="inline-flex items-center">
-                            <input
-                                type="radio"
-                                id="female"
-                                name="gender"
-                                value="female"
-                                checked={formData.gender === 'female'}
-                                onChange={handleChange}
-                                className="form-radio text-blue-500"
-                                required
-                            />
-                            <span className="ml-2">Female</span>
-                        </label>
-                    </div>
-                </div> */}
-                {/* <div className="mb-4">
-                    <label htmlFor="address" className="block mb-2 font-medium">
-                        Address: <span className="text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="address"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div> */}
-                {/* <div className="mb-4">
-                    <label htmlFor="avatar" className="block mb-2 font-medium">
-                        Avatar: <span className="text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                        type=""
-                        id="avatar"
-                        name="avatar"
-                        value={formData.avatar}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-                    />
-                </div> */}
-                {/* <div className="mb-4">
-                    <label htmlFor="workAddress" className="block mb-2 font-medium">
-                        Work Address: <span className="text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="workAddress"
-                        name="workAddress"
-                        value={formData.workAddress}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-                        required
-                    />
-                </div> */}
-                {/* <div className="mb-4">
-                    <label htmlFor="referCode" className="block mb-2 font-medium">
-                        Reference Code:
-                    </label>
-                    <input
-                        type="text"
-                        id="referCode"
-                        name="referCode"
-                        value={formData.referCode}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-                    />
-                </div> */}
+                    <Upload
+                        id='avatar' name='avatar'
+                        beforeUpload={() => false} // Prevent automatic file upload
+                        onChange={(info) => handleFileUpload(info.file)}
+                        maxCount={1}
+                    >
+                        <Button icon={<UploadOutlined />}>Select File</Button>
+                    </Upload>
+                </div>
+                <div className="mb-4">
+                    <img src={file} className='w-[100px] h-[100px]' />
+
+                </div>
+
                 <button
                     type="submit"
                     className="w-full px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
                 >
-                    Sign Up
+                    Tạo mới tài khoản
                 </button>
             </form>
         </div>

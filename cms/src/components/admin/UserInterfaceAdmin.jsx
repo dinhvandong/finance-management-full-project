@@ -33,7 +33,7 @@ const UserInterfaceAdmin = () => {
     <div className="m-5 flex justify-start md:justify-center sm:justify-center lg:justify-start">
         <p className="font-bold">USERS LIST</p>
       </div>
-      <Button className="w-[120px] text-center ml-5 mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
+      <Button className="w-[120px] text-center font-bold ml-5 mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
       NEW USER
     </Button>
     <div className='flex m-5 flex-row'>

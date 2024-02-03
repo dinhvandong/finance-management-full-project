@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 import vn.vti.moneypig.database.SequenceGeneratorService;
 import vn.vti.moneypig.models.User;
 import vn.vti.moneypig.repositories.UserRepository;
+import vn.vti.moneypig.utils.DateUtils;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +24,18 @@ public class UserService {
         this.userRepository = userRepository;
     }
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+
+        List<User> returnList = userRepository.findAll();
+
+        returnList.sort(Comparator.comparingInt(User::getStatus).reversed());
+
+        return returnList;
     }
     public User createUser(User user) {
         long _id = sequenceGeneratorService.generateSequence(User.SEQUENCE_NAME);
         user.setId(_id);
         user.setStatus(1);
+        user.setCreatedDate(DateUtils.getCurrentDate());
         return userRepository.insert(user);
     }
     public User findByUsername(String username) {

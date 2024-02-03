@@ -4,6 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "categoryGroup")
@@ -16,9 +17,20 @@ public class CategoryGroup {
     private String code;
     private String icon;
 
+    private Long createdDate;
+
     private  int status;
     private List<Category> categoryList;
 
+    private  String desc;
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
 
     public int getStatus() {
         return status;
@@ -26,6 +38,14 @@ public class CategoryGroup {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Long getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Long createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getIcon() {

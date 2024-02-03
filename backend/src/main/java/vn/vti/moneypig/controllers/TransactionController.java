@@ -77,7 +77,7 @@ public class TransactionController {
     }
 
 
-    @PostMapping("/findByIdAndDate")
+    @PostMapping("/findByDateRange")
     public ResponseEntity<?> findByDateRange(@RequestParam String token,
                                              @RequestParam Long startDate,
                                              @RequestParam Long endDate)

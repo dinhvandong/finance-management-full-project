@@ -6,6 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.vti.moneypig.dto.ResponseObject;
 import vn.vti.moneypig.jwt.JwtInterceptor;
+import vn.vti.moneypig.models.Category;
+import vn.vti.moneypig.models.CategoryGroup;
+import vn.vti.moneypig.models.Transaction;
 import vn.vti.moneypig.services.CategoryGroupService;
 
 @RestController
@@ -30,14 +33,43 @@ public class CategoryController {
 
     }
     @PostMapping("/findById")
-    public ResponseEntity<?> findById(@RequestParam String token)
+    public ResponseEntity<?> findById(@RequestParam String token, @RequestParam Long id)
     {
-        return  null;
+        Category category = categoryGroupService.findCategoryById(id);
+        if(category!= null)
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, categoryGroupService.findCategoryById(id),"success"));
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"fail"));
+        }
     }
     @PostMapping("/update")
-    public ResponseEntity<?> update(@RequestParam String token)
+    public ResponseEntity<?> update(@RequestParam String token,  @RequestBody Category category)
     {
-        return  null;
+        if(token.isBlank())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated)
+        {
+            Category response =  categoryGroupService.findCategoryById(category.getId());
+            if(response!= null)
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"category is not exist"));
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category is not exist"));
+            }
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category is not exist"));
+        }
     }
     @PostMapping("/delete")
     public ResponseEntity<?> delete(@RequestParam String token)

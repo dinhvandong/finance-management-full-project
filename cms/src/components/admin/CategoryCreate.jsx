@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { createUser } from '../../services/api';
+import { Upload, Button } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
+import { Select } from 'antd';
 
+const { Option } = Select;
 const CategoryCreate = () => {
   const navigate = useNavigate();
 
@@ -32,6 +36,10 @@ const CategoryCreate = () => {
   const handleFileSelect = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+  const handleFileUpload = (file) => {
+    // Handle the file upload logic here
+    console.log(file);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,6 +52,34 @@ const CategoryCreate = () => {
     // Reset form data
     setFormData({ name: '', email: '', password: '' });
   };
+
+  const [options, setOptions] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('');
+
+  useEffect(() => {
+    // Fetch the data from an API or any other source
+    // For demonstration purposes, using a sample array of options
+    const fetchData = async () => {
+      // Simulating API call delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+      const data = [
+        { id: 1, name: 'Option 1' },
+        { id: 2, name: 'Option 2' },
+        { id: 3, name: 'Option 3' },
+      ];
+      
+      setOptions(data);
+    };
+
+    fetchData();
+  }, []);
+
+  const handleChangeOption = (value) => {
+    // Handle the selected value here
+    setSelectedOption(value);
+  };
+
 
   return (
     <div className='w-full h-auto flex flex-col p-3'>
@@ -83,32 +119,51 @@ const CategoryCreate = () => {
           />
         </div>
         <div className="mb-4">
-          {/* <label htmlFor="password" className="block mb-2 font-medium">
-                        Password <span className="text-lg text-red-500">*</span>
-                    </label>
-                    <input
-                        type="text"
-                        id="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-                        required
-                    /> */}
-
-          <input type="file" onChange={handleFileSelect} className="hidden" id="file-upload" />
-          <label htmlFor="file-upload" className="cursor-pointer bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            Select File
+        <label htmlFor="email" className="block mb-2 font-medium">
+            Chọn nhóm danh mục: <span className="text-lg text-red-500">*</span>
           </label>
-          {selectedFile && <p>Selected file: {selectedFile.name}</p>}
+          <Select  className="w-full  h-[40px]" value={selectedOption} onChange={handleChangeOption}>
+            {options.map((option) => (
+              <Option key={option.id} value={option.id}>
+                {option.name}
+              </Option>
+            ))}
+          </Select>
+
+        </div>
+        <div className="mb-4">
+        <label htmlFor="email" className="block mb-2 font-medium">
+            Chọn ảnh đại diện: <span className="text-lg text-red-500">*</span>
+          </label>
+          <Upload
+            beforeUpload={() => false} // Prevent automatic file upload
+            onChange={(info) => handleFileUpload(info.file)}
+          >
+            <Button icon={<UploadOutlined />}>Select File</Button>
+          </Upload>
         </div>
 
         <div className="mb-4">
           <label htmlFor="phone" className="block mb-2 font-medium">
-            Phone Number: <span className="text-lg text-red-500">*</span>
+            Mô tả: <span className="text-lg text-red-500">*</span>
           </label>
           <input
-            type="number"
+            type="text"
+            id="phone"
+            name="phone"
+            value={formData.phone}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="phone" className="block mb-2 font-medium">
+            ID của người dùng: <span className="text-lg text-red-500">*</span>
+          </label>
+          <input
+            type="text"
             id="phone"
             name="phone"
             value={formData.phone}

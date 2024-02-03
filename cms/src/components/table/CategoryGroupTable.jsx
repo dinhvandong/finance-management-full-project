@@ -1,11 +1,11 @@
 import { Button, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { deleteUser, getUsers } from '../../services/api';
+import { convertDateFormat, deleteUser, getGroups, getUsers } from '../../services/api';
 import defaultImage from '../../assets/avata.png'
 
 const CategoryGroupTable = () => {
-    const [users, setUsers] = useState([]);
+    const [groups, setGroups] = useState([]);
     const navigate = useNavigate();
   
     const handleEdit = (id) => {
@@ -22,9 +22,9 @@ const CategoryGroupTable = () => {
   
     const refreshData = async()=>{
       try {
-        const userList = await getUsers();
-        console.log("userList", userList);
-        setUsers(userList);
+        const groups = await getGroups();
+        console.log("groups", groups);
+        setGroups(groups);
       } catch (error) {
         // Handle error
         console.error('Error:', error);
@@ -38,12 +38,9 @@ const CategoryGroupTable = () => {
     useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const userList = await getUsers();
-          console.log("userList", userList);
-          setUsers(userList);
+          const groups = await getGroups();
+          setGroups(groups);
         } catch (error) {
-          // Handle error
-          console.error('Error:', error);
         }
       };
       fetchUsers();
@@ -56,21 +53,21 @@ const CategoryGroupTable = () => {
        // width: '10%'
       },
       {
-        title: 'Group Name',
-        dataIndex: 'username',
-        key: 'username',
+        title: 'Tên nhóm',
+        dataIndex: 'name',
+        key: 'name',
        // width: '20%'
   
       },
       {
-        title: 'Group Code',
-        dataIndex: 'email',
-        key: 'email',
+        title: 'Mã nhóm',
+        dataIndex: 'code',
+        key: 'code',
        // width: '20%'
   
       },
       {
-        title: 'Icon',
+        title: 'Hình ảnh',
         dataIndex: 'image',
         key: 'image',
         render: (text) => <img
@@ -80,9 +77,10 @@ const CategoryGroupTable = () => {
         />,
       },
       {
-        title: 'Created Date',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: 'Ngày tạo',
+        dataIndex: 'createdDate',
+        key: 'createdDate',
+        render: (text) => convertDateFormat(text),
        // width: '20%'
   
       },
@@ -96,7 +94,7 @@ const CategoryGroupTable = () => {
   
       // },
       {
-        title: 'Status',
+        title: 'Trạng thái',
         dataIndex: 'status',
         key: 'status',
         render: (status) => {
@@ -121,7 +119,7 @@ const CategoryGroupTable = () => {
     ];
     return (
       <div className="w-[100%]  flex justify-center items-center">
-        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={users} columns={columns}  />
+        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={groups} columns={columns}  />
       </div>
     );
 }

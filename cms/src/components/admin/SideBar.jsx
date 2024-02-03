@@ -143,36 +143,40 @@ const Sidebar = (props) => {
     navigate("/admin/categoryGroup");
 
   }
-  function gotoHelperClasses() {
-    navigate("/admin/helperclasses");
+
+  function gotoTransaction(){
+    navigate("/admin/transaction");
   }
-  function gotoWidgets() {
-    navigate("/admin/widgets");
-  }
-  function gotoUI() {
-    navigate("/admin/ui");
-  }
-  function gotoForm() {
-    navigate("/admin/form");
-  }
-  function gotoTables() {
-    navigate("/admin/tables");
-  }
-  function gotoMedias() {
-    navigate("/admin/medias");
-  }
-  function gotoCharts() {
-    navigate("/admin/charts");
-  }
-  function gotoExamplePages() {
-    navigate("/admin/examplepages");
-  }
-  function gotoMaps() {
-    navigate("/admin/maps");
-  }
-  function gotoMLM() {
-    navigate("/admin/mlm");
-  }
+  // function gotoHelperClasses() {
+  //   navigate("/admin/helperclasses");
+  // }
+  // function gotoWidgets() {
+  //   navigate("/admin/widgets");
+  // }
+  // function gotoUI() {
+  //   navigate("/admin/ui");
+  // }
+  // function gotoForm() {
+  //   navigate("/admin/form");
+  // }
+  // function gotoTables() {
+  //   navigate("/admin/tables");
+  // }
+  // function gotoMedias() {
+  //   navigate("/admin/medias");
+  // }
+  // function gotoCharts() {
+  //   navigate("/admin/charts");
+  // }
+  // function gotoExamplePages() {
+  //   navigate("/admin/examplepages");
+  // }
+  // function gotoMaps() {
+  //   navigate("/admin/maps");
+  // }
+  // function gotoMLM() {
+  //   navigate("/admin/mlm");
+  // }
 
   const tab = props.menu;
   const styleMenu1 = tab === "tab1" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
@@ -180,11 +184,11 @@ const Sidebar = (props) => {
   const styleMenu3 = tab === "tab3" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   const styleMenu4 = tab === "tab4" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   return (
-    <div className="flex flex-row w-full h-screen border-2 mr-5 ">
+    <div className="flex flex-row w-[250px] h-screen border-r-2 mr-5 ">
         <div className="flex flex-col w-full">
 
           <div className="font-bold bg-blue-500">
-            <p className="m-2">Danh mục</p>
+            <p className="m-2 text-xl text-white font-bold">DANH MỤC</p>
           </div>
           <div className="flex flex-col">
             <button
@@ -220,7 +224,7 @@ const Sidebar = (props) => {
               <div className="text-sm">Nhóm danh mục</div>
             </button>
             <button
-              onClick={() => gotoWidgets()}
+              onClick={() => gotoTransaction()}
               onMouseEnter={handleMouseEnter4}
               onMouseLeave={handleMouseLeave4}
               className={`flex flex-row justify-start items-center ${styleMenu4} hover:text-red-600`}

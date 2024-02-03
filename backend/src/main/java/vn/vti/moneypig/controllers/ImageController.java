@@ -1,6 +1,8 @@
 package vn.vti.moneypig.controllers;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +15,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/images")
+@RequestMapping("/api/images")
 public class ImageController {
     private final ImageService imageService;
     public ImageController(ImageService imageService) {
@@ -22,10 +24,10 @@ public class ImageController {
     @PostMapping
     public ResponseEntity<?> uploadImage(@RequestParam String token, @RequestParam("file") MultipartFile file) {
         try {
-            token = "Bearer " + token;
             if(token.isBlank()){
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"user not exist"));
             }
+            token = "Bearer " + token;
             boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
             if(isAuthenticated){
                 Image savedImage = imageService.saveImage(file);
@@ -44,7 +46,12 @@ public class ImageController {
         Optional<Image> imageOptional = imageService.getImage(id);
         if (imageOptional.isPresent()) {
             Image image = imageOptional.get();
-            return ResponseEntity.ok().body(image.getData());
+            //return ResponseEntity.ok().body(image.getData());
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.IMAGE_JPEG); // Set the appropriate media type, e.g., IMAGE_JPEG, IMAGE_PNG, etc.
+
+            // Return the image byte array with the headers
+            return new ResponseEntity<>(image.getData(), headers, HttpStatus.OK);
         } else {
             return ResponseEntity.notFound().build();
         }

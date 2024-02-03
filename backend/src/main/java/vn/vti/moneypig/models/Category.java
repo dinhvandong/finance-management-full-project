@@ -2,9 +2,8 @@ package vn.vti.moneypig.models;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Date;
-@Document(collection = "categories")
+//@Document(collection = "categories")
 public class Category {
-
     private Long id;
     @Transient
     public static final String SEQUENCE_NAME = "category_sequence";
@@ -12,9 +11,7 @@ public class Category {
     private String icon;
     private boolean active;
     private Date createdDate;
-
     private Long userID;
-
     public Long getUserID() {
         return userID;
     }

@@ -1,6 +1,10 @@
 package vn.vti.moneypig.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 import vn.vti.moneypig.database.SequenceGeneratorService;
 import vn.vti.moneypig.models.Category;
@@ -12,7 +16,8 @@ import java.util.Optional;
 
 @Service
 public class CategoryGroupService {
-
+    @Autowired
+    private MongoTemplate mongoTemplate;
     @Autowired
     CategoryGroupRepository categoryGroupRepository;
 
@@ -24,15 +29,21 @@ public class CategoryGroupService {
         return categoryGroupRepository.insert(transactionGroup);
     }
 
-    public CategoryGroup update(CategoryGroup transactionGroup){
-        Optional<CategoryGroup> optionalTransactionGroup = categoryGroupRepository.findById(transactionGroup.getId());
+    public CategoryGroup update(CategoryGroup group){
+        Optional<CategoryGroup> optionalTransactionGroup = categoryGroupRepository.findById(group.getId());
         if(optionalTransactionGroup.isPresent()){
             CategoryGroup update = optionalTransactionGroup.get();
-            update.setCode(transactionGroup.getCode());
-            update.setName(transactionGroup.getName());
+            update.setCode(group.getCode());
+            update.setName(group.getName());
+            update.setIcon(group.getIcon());
+            update.setDesc(group.getDesc());
             return categoryGroupRepository.save(update);
         }
         return  null;
+    }
+
+    public CategoryGroup findById(Long id){
+        return categoryGroupRepository.findById(id).orElse(null);
     }
 
     public CategoryGroup delete(Long id){
@@ -122,5 +133,17 @@ public class CategoryGroupService {
         return null;
     }
 
+    public Category findCategoryById(Long categoryId) {
+        Query query = new Query(Criteria.where("categoryList").elemMatch(Criteria.where("id").is(categoryId)));
+        query.fields().elemMatch("categoryList", Criteria.where("id").is(categoryId));
+
+        return mongoTemplate.findOne(query, CategoryGroup.class).getCategoryList().get(0);
+    }
+
+    public void updateCategory2(Long categoryId, Category updatedCategory) {
+        Query query = new Query(Criteria.where("categoryList.id").is(categoryId));
+        Update update = new Update().set("categoryList.$", updatedCategory);
+        mongoTemplate.updateFirst(query, update, CategoryGroup.class);
+    }
 
 }

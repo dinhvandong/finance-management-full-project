@@ -26,7 +26,7 @@ const CategoriesList = () => {
       <div className="m-5 flex justify-start md:justify-center sm:justify-center lg:justify-start">
         <p className="font-bold">CATEGORIES</p>
       </div>
-      <Button className="w-[140px] ml-5 text-center mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
+      <Button className="w-[160px] ml-5 font-bold text-center mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
       NEW CATEGORY
     </Button>
     <div className='flex m-5 flex-row'>

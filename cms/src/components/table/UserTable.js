@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { deleteUser, getUsers } from '../../services/api'
+import { convertDateFormat, deleteUser, getUsers } from '../../services/api'
 import { Button, Space, Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/avata.png'
@@ -56,21 +56,21 @@ const UserTable = () => {
       // width: '10%'
     },
     {
-      title: 'Username',
+      title: 'Tài khoản',
       dataIndex: 'username',
       key: 'username',
       // width: '20%'
 
     },
     {
-      title: 'Email',
+      title: 'Địa chỉ email',
       dataIndex: 'email',
       key: 'email',
       // width: '20%'
 
     },
     {
-      title: 'Phone',
+      title: 'Số điện thoại',
       dataIndex: 'phone',
       key: 'phone',
       // width: '20%'
@@ -86,7 +86,7 @@ const UserTable = () => {
 
     // },
     {
-      title: 'Status',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
       render: (status) => {
@@ -98,22 +98,32 @@ const UserTable = () => {
       },
     },
     {
-      title: 'Image',
-      dataIndex: 'image',
-      key: 'image',
-      render: (text) => <img
-        src={text || defaultImage}
-        alt="Image"
-        className="h-10 w-10"
+      title: 'Ảnh đại diện',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (avatar) => <img
+        src={avatar || defaultImage}
+        alt="avatar"
+        className="h-10 w-10 rounded-full"
       />,
     },
     {
-      title: 'Actions',
+      title: 'Ngày tạo',
+      dataIndex: 'createdDate',
+      key: 'createdDate',
+      render: (text) => convertDateFormat(text),
+     // width: '20%'
+
+    },
+    {
+      title: 'Hành động',
       key: 'actions',
       render: (text, record) => (
         <Space size="middle">
-          <Button className="bg-edit text-white" type="primary" onClick={() => handleEdit(record.id)}>Edit</Button>
-          <Button className="bg-delete mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Delete</Button>
+          <Button className="bg-edit text-white" type="primary" onClick={() => handleEdit(record.id)}>Chỉnh sửa</Button>
+          <Button className="bg-delete mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Xóa</Button>
+          <Button className="bg-emerald-500 mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Kích hoạt</Button>
+
         </Space>
       ),
     },

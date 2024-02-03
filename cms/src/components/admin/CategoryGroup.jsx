@@ -16,7 +16,7 @@ const CategoryGroup = () => {
     setIsOn(!isOn);
   };
   const handleInsert = () => {
-   navigate("/admin/users/create-new");
+   navigate("/admin/categoryGroup/create-new");
   };
   const handleSearch = ()=>{
 
@@ -24,9 +24,9 @@ const CategoryGroup = () => {
   return (
     <div className='w-full h-auto flex flex-col p-3'>
       <div className="m-5 flex justify-start md:justify-center sm:justify-center lg:justify-start">
-        <p className="font-bold">CATEGORY GROUP</p>
+        <p className="font-bold">GROUP</p>
       </div>
-      <Button className="w-[120px] text-center ml-5 mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
+      <Button className="w-[120px] font-bold text-center ml-5 mb-5 bg-blue-500" type="primary" onClick={handleInsert}>
       NEW GROUP
     </Button>
     <div className='flex m-5 flex-row'>

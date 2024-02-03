@@ -14,12 +14,14 @@ import vn.vti.moneypig.security.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Configuration
 public class Database {
 
     @Bean
-    CommandLineRunner initDatabase(UserRepository userRepository, CategoryGroupRepository categoryGroupRepository) {
+    CommandLineRunner initDatabase(UserRepository userRepository,
+                                   CategoryGroupRepository categoryGroupRepository) {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
@@ -47,17 +49,23 @@ public class Database {
                 categoryGroup1.setId(1L);
                 categoryGroup1.setCode("EXPENSE");
                 categoryGroup1.setName("Expense");
+                categoryGroup1.setStatus(1);
+                categoryGroup1.setCreatedDate(longDate);
 
                 CategoryGroup categoryGroup2 = new CategoryGroup();
                 categoryGroup2.setId(2L);
                 categoryGroup2.setCode("MONEY");
                 categoryGroup2.setName("Money");
+                categoryGroup2.setStatus(1);
+                categoryGroup2.setCreatedDate(longDate);
 
                 CategoryGroup categoryGroup3 = new CategoryGroup();
 
                 categoryGroup3.setId(3L);
                 categoryGroup3.setCode("DEPT");
                 categoryGroup3.setName("Dept");
+                categoryGroup3.setStatus(1);
+                categoryGroup3.setCreatedDate(longDate);
 
                 if(categoryGroupRepository.findAll().isEmpty()){
                     categoryGroupRepository.insert(categoryGroup1);

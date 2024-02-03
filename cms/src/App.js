@@ -11,6 +11,9 @@ import CategoryGroupCreatePage from './pages/CategoryGroupCreatePage';
 import CategoryGroupEditPage from './pages/CategoryGroupEditPage';
 import CategoryCreatePage from './pages/CategoryCreatePage';
 import CategoryEditPage from './pages/CategoryEditPage';
+import TransactionPage from './pages/TransactionPage';
+import TransactionCreatePage from './pages/TransactionCreatePage';
+import TransactionEditPage from './pages/TransactionEditPage';
 
 function App() {
   return (
@@ -30,6 +33,11 @@ function App() {
 
         <Route path="/admin/users/create-new" element={<UserCreatePage />} />
         <Route path="/admin/users/update/:id" element={<UserEditPage />} />
+
+        <Route path="/admin/transaction" element={<TransactionPage />} />
+        <Route path="/admin/transaction/create-new" element={<TransactionCreatePage />} />
+        <Route path="/admin/transaction/update/:id" element={<TransactionEditPage />} />
+
       </Routes>
     </BrowserRouter>
   );
