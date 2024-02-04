@@ -1,45 +1,15 @@
-package vn.vti.moneypig.models;
+package vn.vti.moneypig.dto;
+
 import org.springframework.data.annotation.Transient;
-import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.Date;
-//@Document(collection = "categories")
-public class Category {
+
+public class CategoryResponse {
     private Long id;
-    @Transient
-    public static final String SEQUENCE_NAME = "category_sequence";
     private String name;
     private String icon;
-
-    private Long groupID;
     private boolean active;
     private Long createdDate;
 
     public String desc;
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public Long getGroupID() {
-        return groupID;
-    }
-
-    public void setGroupID(Long groupID) {
-        this.groupID = groupID;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    private Long userID;
-    public Long getUserID() {
-        return userID;
-    }
-
-    public void setUserID(Long userID) {
-        this.userID = userID;
-    }
 
     public Long getId() {
         return id;
@@ -80,4 +50,22 @@ public class Category {
     public void setCreatedDate(Long createdDate) {
         this.createdDate = createdDate;
     }
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    private Long userID;
 }

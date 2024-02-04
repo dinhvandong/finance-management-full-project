@@ -104,6 +104,16 @@ export const getGroups = async () => {
     throw error;
   }
 };
+export const getCategory = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category/findAll?token=${token}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 export const createGroups = async (groupData) => {
   try {
@@ -115,10 +125,53 @@ export const createGroups = async (groupData) => {
   }
 };
 
+export const createCategory = async (groupID, categoryData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category/insert?token=${token}&groupID=${groupID}`, categoryData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const findCategory = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category/findById?token=${token}&id=${id}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+export const updateCategory = async (groupID, categoryData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category/update?token=${token}&groupID=${groupID}`, categoryData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const updateGroups = async (groupData) => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(`${API_URL}/category-group/update?token=${token}`, groupData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const getGroupById = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category-group/findById?token=${token}&id=${id}`);
+   
+    console.log("response1111:", response);
     return response.data.data;
   } catch (error) {
     throw error;

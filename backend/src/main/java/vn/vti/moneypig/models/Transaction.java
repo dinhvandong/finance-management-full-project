@@ -8,9 +8,7 @@ public class Transaction {
     @Id
     private  Long id;
     private String name;
-
     public static final String SEQUENCE_NAME = "transaction_sequence";
-
     private Long userId;
     private String note;
     private Long money;
@@ -20,8 +18,6 @@ public class Transaction {
     private  Long createdDate;
     private List<String> listImages;
     private int active;
-
-
     public Long getUserId() {
         return userId;
     }
@@ -29,7 +25,6 @@ public class Transaction {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
-
     public int getGroupID() {
         return groupID;
     }

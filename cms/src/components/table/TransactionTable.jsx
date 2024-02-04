@@ -1,16 +1,16 @@
 import { Button, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react'
+import { convertDateFormat, deleteUser, getCategory } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import { convertDateFormat, deleteUser, getGroups, getUsers } from '../../services/api';
 import defaultImage from '../../assets/avata.png'
 
-const CategoryGroupTable = () => {
-    const [groups, setGroups] = useState([]);
+const TransactionTable = () => {
+    const [categoryList, setCategoryList] = useState([]);
     const navigate = useNavigate();
   
     const handleEdit = (id) => {
       console.log('Edit clicked for ID:', id);
-      navigate(`/admin/categoryGroup/update/${id}`)
+      navigate(`/admin/categories/update/${id}`)
     };
   
     const handleDelete = async (id) => {
@@ -22,9 +22,9 @@ const CategoryGroupTable = () => {
   
     const refreshData = async()=>{
       try {
-        const groups = await getGroups();
-        console.log("groups", groups);
-        setGroups(groups);
+        const categoryList = await getCategory();
+        console.log("categoryList", categoryList);
+        setCategoryList(categoryList);
       } catch (error) {
         // Handle error
         console.error('Error:', error);
@@ -38,9 +38,12 @@ const CategoryGroupTable = () => {
     useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const groups = await getGroups();
-          setGroups(groups);
+          const categoryList = await getCategory();
+          console.log("categoryList", categoryList);
+          setCategoryList(categoryList);
         } catch (error) {
+          // Handle error
+          console.error('Error:', error);
         }
       };
       fetchUsers();
@@ -53,28 +56,34 @@ const CategoryGroupTable = () => {
        // width: '10%'
       },
       {
-        title: 'Tên nhóm',
+        title: 'Tên hạng mục',
         dataIndex: 'name',
         key: 'name',
-       // width: '20%'
   
       },
       {
-        title: 'Mã nhóm',
-        dataIndex: 'code',
-        key: 'code',
-       // width: '20%'
+        title: 'Nhóm',
+        dataIndex: 'group',
+        key: 'group',
   
       },
       {
-        title: 'Hình ảnh',
-        dataIndex: 'icon',
-        key: 'icon',
-        render: (icon) => <img
-          src={icon || defaultImage}
-          alt="Icon"
-          className="h-10 w-10 rounded-full"
-        />,
+        title: 'Hạng mục',
+        dataIndex: 'category',
+        key: 'category',
+  
+      },
+      {
+        title: 'Mô tả',
+        dataIndex: 'note',
+        key: 'note',
+  
+      },
+      {
+        title: 'Tài khoản',
+        dataIndex: 'user',
+        key: 'user',
+        
       },
       {
         title: 'Ngày tạo',
@@ -84,29 +93,22 @@ const CategoryGroupTable = () => {
        // width: '20%'
   
       },
-      // {
-      //   title: 'Status',
-      //   dataIndex: 'status',
-      //   key: 'status',
-      //   //width: '20%',
-      //   render: (status) => (status === 1 ? 'Active' : 'Inactive'),
-  
-  
-      // },
       {
         title: 'Trạng thái',
-        dataIndex: 'status',
-        key: 'status',
+        dataIndex: 'active',
+        key: 'active',
         render: (status) => {
           const statusStyle = {
-            color: status === 0 ? 'red' : 'inherit',
+            color: status === false ? 'red' : 'inherit',
           };
     
-          return <span style={statusStyle}>{(status === 1 ? 'Active' : 'Inactive')}</span>;
+          return <span style={statusStyle}>{(status === true ? 'Active' : 'Inactive')}</span>;
         },
       },
+
+
       {
-        title: 'Actions',
+        title: 'Hành động',
         key: 'actions',
         render: (text, record) => (
           <Space size="middle">
@@ -121,9 +123,9 @@ const CategoryGroupTable = () => {
     ];
     return (
       <div className="w-[100%]  flex justify-center items-center">
-        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={groups} columns={columns}  />
+        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={categoryList} columns={columns}  />
       </div>
     );
 }
 
-export default CategoryGroupTable
+export default TransactionTable
