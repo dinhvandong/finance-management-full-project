@@ -67,7 +67,7 @@ const UserEdit = (props) => {
             {/* <p className='text-sm ml-10'> <span className='text-gray-500'>Trang chủ /</span>&nbsp;Quản trị viên</p> */}
             <div className='flex items-center gap-3 my-5'>
                 <button onClick={gotoUserList} className='text-lg font-semibold'>Danh sách</button>
-                <button onClick={gotoCreateNew} className='w-24 h-9 p-4 bg-white text-gray-500 border-black rounded flex justify-center items-center hover:shadow-lg'>Tạo mới</button>
+                <button onClick={gotoCreateNew} className='w-24 h-9 p-4 bg-insert text-white rounded flex justify-center items-center hover:shadow-lg'>Tạo mới</button>
             </div>
             {/* <div className='flex items-center justify-between'>
                 <div className='flex gap-3 items-center'>

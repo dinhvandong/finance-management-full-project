@@ -26,7 +26,7 @@ public class CategoryController {
 
         boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
         if(isAuthenticated){
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, categoryGroupService.findAll(),"success"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, categoryGroupService.getAllCategoriesInAllGroups(),"success"));
         }else {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category not exist"));
         }
@@ -35,10 +35,11 @@ public class CategoryController {
     @PostMapping("/findById")
     public ResponseEntity<?> findById(@RequestParam String token, @RequestParam Long id)
     {
-        Category category = categoryGroupService.findCategoryById(id);
+        Category category = null;
+        category = categoryGroupService.findCategoryById(id);
         if(category!= null)
         {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, categoryGroupService.findCategoryById(id),"success"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, category,"success"));
         }
         else
         {
@@ -46,7 +47,7 @@ public class CategoryController {
         }
     }
     @PostMapping("/update")
-    public ResponseEntity<?> update(@RequestParam String token,  @RequestBody Category category)
+    public ResponseEntity<?> update(@RequestParam String token, @RequestParam Long groupID,  @RequestBody Category category)
     {
         if(token.isBlank())
         {
@@ -56,7 +57,7 @@ public class CategoryController {
         boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
         if(isAuthenticated)
         {
-            Category response =  categoryGroupService.findCategoryById(category.getId());
+            CategoryGroup response =  categoryGroupService.updateCategory(groupID,category);
             if(response!= null)
             {
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"category is not exist"));
@@ -77,8 +78,30 @@ public class CategoryController {
         return  null;
     }
     @PostMapping("/insert")
-    public ResponseEntity<?> insert(@RequestParam String token)
+    public ResponseEntity<?> insert(@RequestParam String token,
+                                    @RequestParam Long groupID, @RequestBody Category category )
     {
-        return  null;
+        if(token.isBlank())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated)
+        {
+            CategoryGroup response =  categoryGroupService.addCategory(groupID, category);
+            if(response!= null)
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"category is added "));
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category is not exist"));
+            }
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category is not exist"));
+        }
     }
 }

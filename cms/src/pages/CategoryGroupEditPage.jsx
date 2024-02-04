@@ -4,6 +4,7 @@ import { isAuthenticated } from '../utils/localStorage';
 import HeaderAdmin from '../components/admin/HeaderAdmin';
 import Sidebar from '../components/admin/SideBar';
 import UserEdit from '../components/admin/UserEdit';
+import CategoryGroupEdit from '../components/admin/CategoryGroupEdit';
 
 const CategoryGroupEditPage = () => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const CategoryGroupEditPage = () => {
             <Sidebar menu="tab3" />
           </div>
           <div className="flex w-[100%]   flex-row justify-center">     
-               <UserEdit id = {id} />
+               <CategoryGroupEdit id = {id} />
           </div>
         </div>
       </div>

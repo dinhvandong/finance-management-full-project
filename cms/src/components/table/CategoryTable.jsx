@@ -1,16 +1,17 @@
 import { Button, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { deleteUser, getUsers } from '../../services/api';
+import { convertDateFormat, deleteUser, getCategory, getUsers } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/avata.png'
+import CategoriesList from './../admin/CategoriesList';
 
 const CategoryTable = () => {
-    const [users, setUsers] = useState([]);
+    const [categoryList, setCategoryList] = useState([]);
     const navigate = useNavigate();
   
     const handleEdit = (id) => {
       console.log('Edit clicked for ID:', id);
-      navigate(`/admin/users/update/${id}`)
+      navigate(`/admin/categories/update/${id}`)
     };
   
     const handleDelete = async (id) => {
@@ -22,9 +23,9 @@ const CategoryTable = () => {
   
     const refreshData = async()=>{
       try {
-        const userList = await getUsers();
-        console.log("userList", userList);
-        setUsers(userList);
+        const categoryList = await getCategory();
+        console.log("categoryList", categoryList);
+        setCategoryList(categoryList);
       } catch (error) {
         // Handle error
         console.error('Error:', error);
@@ -38,9 +39,9 @@ const CategoryTable = () => {
     useEffect(() => {
       const fetchUsers = async () => {
         try {
-          const userList = await getUsers();
-          console.log("userList", userList);
-          setUsers(userList);
+          const categoryList = await getCategory();
+          console.log("categoryList", categoryList);
+          setCategoryList(categoryList);
         } catch (error) {
           // Handle error
           console.error('Error:', error);
@@ -56,54 +57,58 @@ const CategoryTable = () => {
        // width: '10%'
       },
       {
-        title: 'Category Name',
-        dataIndex: 'username',
-        key: 'username',
+        title: 'Tên hạng mục',
+        dataIndex: 'name',
+        key: 'name',
   
       },
       {
-        title: 'Group Code',
-        dataIndex: 'email',
-        key: 'email',
+        title: 'Mô tả',
+        dataIndex: 'desc',
+        key: 'desc',
   
       },
       {
-        title: 'Icon',
-        dataIndex: 'image',
-        key: 'image',
+        title: 'Hình ảnh',
+        dataIndex: 'icon',
+        key: 'icon',
         render: (text) => <img
           src={text || defaultImage}
           alt="Icon"
-          className="h-10 w-10"
+          className="h-10 w-10 rounded-full"
         />,
       },
       {
-        title: 'Created Date',
-        dataIndex: 'phone',
-        key: 'phone',
+        title: 'Ngày tạo',
+        dataIndex: 'createdDate',
+        key: 'createdDate',
+        render: (text) => convertDateFormat(text),
+       // width: '20%'
   
       },
       {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
+        title: 'Trạng thái',
+        dataIndex: 'active',
+        key: 'active',
         render: (status) => {
           const statusStyle = {
-            color: status === 0 ? 'red' : 'inherit',
+            color: status === false ? 'red' : 'inherit',
           };
     
-          return <span style={statusStyle}>{(status === 1 ? 'Active' : 'Inactive')}</span>;
+          return <span style={statusStyle}>{(status === true ? 'Active' : 'Inactive')}</span>;
         },
       },
 
 
       {
-        title: 'Actions',
+        title: 'Hành động',
         key: 'actions',
         render: (text, record) => (
           <Space size="middle">
-            <Button className="bg-edit text-white" type="primary" onClick={() => handleEdit(record.id)}>Edit</Button>
-            <Button className="bg-delete mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Delete</Button>
+            <Button className="bg-edit text-white" type="primary" onClick={() => handleEdit(record.id)}>Cập nhật</Button>
+            <Button className="bg-delete mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Xóa</Button>
+            <Button className="bg-emerald-500 mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Kích hoạt</Button>
+
           </Space>
         ),
       },
@@ -111,7 +116,7 @@ const CategoryTable = () => {
     ];
     return (
       <div className="w-[100%]  flex justify-center items-center">
-        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={users} columns={columns}  />
+        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={categoryList} columns={columns}  />
       </div>
     );
 }

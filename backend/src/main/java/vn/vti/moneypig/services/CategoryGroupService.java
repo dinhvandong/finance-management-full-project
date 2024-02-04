@@ -1,7 +1,10 @@
 package vn.vti.moneypig.services;
 
+import com.mongodb.client.result.UpdateResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -10,9 +13,12 @@ import vn.vti.moneypig.database.SequenceGeneratorService;
 import vn.vti.moneypig.models.Category;
 import vn.vti.moneypig.models.CategoryGroup;
 import vn.vti.moneypig.repositories.CategoryGroupRepository;
+import vn.vti.moneypig.utils.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryGroupService {
@@ -26,6 +32,9 @@ public class CategoryGroupService {
 
     public CategoryGroup insert(CategoryGroup transactionGroup){
         Long id = sequenceGeneratorService.generateSequence(CategoryGroup.SEQUENCE_NAME);
+        transactionGroup.setId(id);
+        transactionGroup.setCreatedDate(DateUtils.getCurrentDate());
+        transactionGroup.setStatus(1);
         return categoryGroupRepository.insert(transactionGroup);
     }
 
@@ -61,6 +70,17 @@ public class CategoryGroupService {
         return categoryGroupRepository.findAll();
     }
 
+
+    public List<Category> getAllCategoriesInAllGroups() {
+        Aggregation aggregation = Aggregation.newAggregation(
+                Aggregation.unwind("categoryList"),
+                Aggregation.replaceRoot("categoryList")
+        );
+
+        AggregationResults<Category> results = mongoTemplate.aggregate(aggregation, "categoryGroup", Category.class);
+        return results.getMappedResults();
+    }
+
 //    public List<CategoryGroup> findByUserId(Long userID){
 //        return transactionGroupRepository.findAllByUserID(userID);
 //    }
@@ -73,37 +93,15 @@ public class CategoryGroupService {
             categoryGroupFound = categoryGroupOptional.get();
             Long categoryID = sequenceGeneratorService.generateSequence(Category.SEQUENCE_NAME);
             category.setId(categoryID);
+            category.setActive(true);
+            category.setCreatedDate(DateUtils.getCurrentDate());
 
-            List<Category> categoryList = categoryGroupFound.getCategoryList();
-            categoryList.add(category);
-            categoryGroupFound.setCategoryList(categoryList);
-            return categoryGroupRepository.save(categoryGroupFound);
-        }
-        return null;
-    }
+            List<Category> categoryList = new ArrayList<>();
+            if(categoryGroupFound.getCategoryList()!= null){
+                categoryList=       categoryGroupFound.getCategoryList();
 
-    public CategoryGroup updateCategory(Long idGroup, Category category){
-        Optional<CategoryGroup> categoryGroupOptional = categoryGroupRepository.findById(idGroup);
-        if (categoryGroupOptional.isPresent()) {
-            CategoryGroup categoryGroupFound = null;
-
-            categoryGroupFound = categoryGroupOptional.get();
-            Long categoryID = sequenceGeneratorService.generateSequence(Category.SEQUENCE_NAME);
-            category.setId(categoryID);
-
-            List<Category> categoryList = categoryGroupFound.getCategoryList();
-            int index = 0;
-            for(Category item: categoryList){
-                if(category.getId() == item.getId()){
-                    break;
-                }
-                index++;
             }
-            categoryList.get(index).setId(category.getId());
-            categoryList.get(index).setName(category.getName());
-            categoryList.get(index).setActive(category.isActive());
-            categoryList.get(index).setIcon(category.getIcon());
-            categoryList.get(index).setUserID(category.getUserID());
+            categoryList.add(category);
             categoryGroupFound.setCategoryList(categoryList);
             return categoryGroupRepository.save(categoryGroupFound);
         }
@@ -134,16 +132,36 @@ public class CategoryGroupService {
     }
 
     public Category findCategoryById(Long categoryId) {
-        Query query = new Query(Criteria.where("categoryList").elemMatch(Criteria.where("id").is(categoryId)));
-        query.fields().elemMatch("categoryList", Criteria.where("id").is(categoryId));
+        List<Category> listAll = new ArrayList<>();
+        listAll = getAllCategoriesInAllGroups();
 
-        return mongoTemplate.findOne(query, CategoryGroup.class).getCategoryList().get(0);
+        List<Category> filteredCategories = listAll.stream()
+                .filter(category -> category.getId().equals(categoryId) )
+                .toList();
+
+        if (!filteredCategories.isEmpty()) {
+            return filteredCategories.get(0);
+        }
+        return  null;
     }
 
-    public void updateCategory2(Long categoryId, Category updatedCategory) {
+    public Category getCategoryById(Long categoryId) {
         Query query = new Query(Criteria.where("categoryList.id").is(categoryId));
-        Update update = new Update().set("categoryList.$", updatedCategory);
-        mongoTemplate.updateFirst(query, update, CategoryGroup.class);
+        return mongoTemplate.findOne(query, Category.class, "CategoryGroup");
+    }
+
+    public CategoryGroup updateCategory(Long categoryId, Category category) {
+        Query query = new Query(Criteria.where("categoryList.id").is(categoryId));
+        Update update = new Update().set("categoryList.$", category);
+        UpdateResult result = mongoTemplate.updateFirst(query, update, CategoryGroup.class);
+        if (result.getModifiedCount() > 0) {
+            // Document updated successfully
+            return mongoTemplate.findOne(query, CategoryGroup.class);
+        } else {
+            // No document matched the query
+            return null;
+        }
+
     }
 
 }

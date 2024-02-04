@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { IoMdSearch } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import CategoryTable from '../table/CategoryTable';
+import TransactionTable from '../table/TransactionTable';
 
 const TransactionList = () => {
     const [isOn, setIsOn] = useState(false);
@@ -55,7 +56,7 @@ const TransactionList = () => {
                   </div>
               </div>
         <div className="flex w-[100%]   flex-row justify-center">
-          <CategoryTable />
+          <TransactionTable />
   
         </div>
         
