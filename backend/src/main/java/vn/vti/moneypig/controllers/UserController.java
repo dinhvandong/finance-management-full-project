@@ -14,7 +14,6 @@ import vn.vti.moneypig.jwt.JwtInterceptor;
 import vn.vti.moneypig.jwt.JwtTokenStore;
 import vn.vti.moneypig.models.User;
 //import vn.vti.moneypig.otp.OTPService;
-import vn.vti.moneypig.services.FirebaseService;
 import vn.vti.moneypig.services.UserService;
 @CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
 @RestController
@@ -23,14 +22,13 @@ public class UserController {
     private  final UserService userService;
     private final JwtInterceptor jwtInterceptor;
     private final JwtTokenStore jwtTokenStore;
-    private final FirebaseService firebaseService;
+//    private final FirebaseService firebaseService;
     @Autowired
     public UserController(UserService userService, JwtInterceptor jwtInterceptor,
-                          JwtTokenStore jwtTokenStore, FirebaseService firebaseService) {
+                          JwtTokenStore jwtTokenStore) {
         this.userService = userService;
         this.jwtInterceptor = jwtInterceptor;
         this.jwtTokenStore = jwtTokenStore;
-        this.firebaseService = firebaseService;
 //        this.otpService = otpService;
     }
     @GetMapping("/findByToken")
@@ -185,16 +183,16 @@ public class UserController {
         }
     }
 
-    @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOTP(@RequestParam("idToken") String idToken) {
-        try {
-            FirebaseToken firebaseToken = firebaseService.verifyOTP(idToken);
-            // Perform additional actions with the verified user's information if needed
-            return ResponseEntity.ok("OTP verification successful");
-        } catch (FirebaseAuthException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid OTP");
-        }
-    }
+//    @PostMapping("/verify-otp")
+//    public ResponseEntity<String> verifyOTP(@RequestParam("idToken") String idToken) {
+//        try {
+//            FirebaseToken firebaseToken = firebaseService.verifyOTP(idToken);
+//            // Perform additional actions with the verified user's information if needed
+//            return ResponseEntity.ok("OTP verification successful");
+//        } catch (FirebaseAuthException e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid OTP");
+//        }
+//    }
 
 //    @PostMapping("/send-otp")
 //    public ResponseEntity<String> sendOTP(@RequestParam("phoneNumber") String phoneNumber) {
