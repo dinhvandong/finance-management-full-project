@@ -1,10 +1,15 @@
 import React from 'react'
+import iconApp from '../../assets/logo512.png';
 
 const HeaderAdmin = () => {
   return (
-    <div className="flex flex-row w-full bg-[rgb(238,155,72)]">
-        <div className="flex justify-start font-bold text-white w-[50%] mt-1 mb-5 ml-5">
-          ADMINBSB - QUẢN TRỊ ỨNG DỤNG FINANCE-F88
+
+    <div className='flex flex-row w-full h-full'>
+      <div className="flex flex-row w-full justify-center items-center bg-insert">
+      <img className='w-6 h- ml-5' src={iconApp} alt='icon-app'/>
+        <div className="flex  font-bold text-white w-[50%] mt-1 mb-5 ml-5">
+          
+          ADMINBSB - QUẢN TRỊ ỨNG DỤNG HELLO MONEY
         </div>
         <div className="flex flex-row justify-end w-[50%]">
           {/* <button>
@@ -37,6 +42,14 @@ const HeaderAdmin = () => {
           </button>
         </div>
       </div>
+
+      <div className='w-full z-10 absolute h-[400px] bg-yellow-500'>
+
+      </div>
+
+      
+    </div>
+   
   )
 }
 

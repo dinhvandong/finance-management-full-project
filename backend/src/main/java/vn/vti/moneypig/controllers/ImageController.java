@@ -1,5 +1,6 @@
 package vn.vti.moneypig.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,11 +14,14 @@ import vn.vti.moneypig.services.ImageService;
 
 import java.io.IOException;
 import java.util.Optional;
-
+@CrossOrigin(origins = "http://150.95.110.230")
 @RestController
 @RequestMapping("/api/images")
 public class ImageController {
     private final ImageService imageService;
+
+
+    @Autowired
     public ImageController(ImageService imageService) {
         this.imageService = imageService;
     }

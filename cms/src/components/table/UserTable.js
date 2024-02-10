@@ -123,6 +123,7 @@ const UserTable = () => {
           <Button className="bg-edit text-white" type="primary" onClick={() => handleEdit(record.id)}>Chỉnh sửa</Button>
           <Button className="bg-delete mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Xóa</Button>
           <Button className="bg-emerald-500 mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Kích hoạt</Button>
+          <Button className="bg-history mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Xem lịch sử</Button>
 
         </Space>
       ),

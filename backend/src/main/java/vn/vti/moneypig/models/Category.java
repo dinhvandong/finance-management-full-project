@@ -11,6 +11,7 @@ public class Category {
     private String icon;
 
     private Long groupID;
+    private String groupName;
     private boolean active;
     private Long createdDate;
 
@@ -75,6 +76,14 @@ public class Category {
 
     public Long getCreatedDate() {
         return createdDate;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 
     public void setCreatedDate(Long createdDate) {

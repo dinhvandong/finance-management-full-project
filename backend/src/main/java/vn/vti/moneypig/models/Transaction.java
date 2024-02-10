@@ -9,35 +9,37 @@ public class Transaction {
     private  Long id;
     private String name;
     public static final String SEQUENCE_NAME = "transaction_sequence";
-    private Long userId;
+    private Long userID;
     private String note;
     private Long money;
     private String withPerson;
-    private int groupID;
-    private int categoryID;
+    private Long groupID;
+    private Long categoryID;
     private  Long createdDate;
     private List<String> listImages;
     private int active;
-    public Long getUserId() {
-        return userId;
+
+    public Long getUserID() {
+        return userID;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUserID(Long userID) {
+        this.userID = userID;
     }
-    public int getGroupID() {
+
+    public Long getGroupID() {
         return groupID;
     }
 
-    public void setGroupID(int groupID) {
+    public void setGroupID(Long groupID) {
         this.groupID = groupID;
     }
 
-    public int getCategoryID() {
+    public Long getCategoryID() {
         return categoryID;
     }
 
-    public void setCategoryID(int categoryID) {
+    public void setCategoryID(Long categoryID) {
         this.categoryID = categoryID;
     }
 

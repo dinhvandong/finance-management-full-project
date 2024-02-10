@@ -5,13 +5,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.vti.moneypig.dto.ResponseObject;
+import vn.vti.moneypig.dto.TransactionResponse;
 import vn.vti.moneypig.jwt.JwtInterceptor;
 import vn.vti.moneypig.models.Transaction;
 
 import vn.vti.moneypig.services.TransactionService;
 
 import java.util.List;
-
+@CrossOrigin(origins = "http://150.95.110.230")
 @RestController
 @RequestMapping("/api/transaction")
 public class TransactionController {
@@ -64,8 +65,9 @@ public class TransactionController {
             List<Transaction> response =  transactionService.findByDate(startDate, endDate, userId);
             if(!response.isEmpty()){
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"transaction is not exist"));
-
-            }else {
+            }
+            else
+            {
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
             }
         }
@@ -73,10 +75,55 @@ public class TransactionController {
         {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
         }
-
     }
 
 
+    @PostMapping("/findAllByUserId")
+    public ResponseEntity<?> findAllByUserId(@RequestParam String token,
+                                             @RequestParam Long userId
+                                             ) {
+        if(token.isBlank())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+        }
+        token = "Bearer " + token;
+
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated)
+        {
+            List<Transaction> response =  transactionService.findByUserID(userId);
+            if(!response.isEmpty()){
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"transaction is not exist"));
+            }
+            else
+            {
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+            }
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+        }
+    }
+    @PostMapping("/findAll")
+    public ResponseEntity<?> findAll(@RequestParam String token)
+    {
+        if(token.isBlank())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated)
+        {
+            List<TransactionResponse> response =  transactionService.findAll();
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"success"));
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"transaction is not exist"));
+        }
+    }
     @PostMapping("/findByDateRange")
     public ResponseEntity<?> findByDateRange(@RequestParam String token,
                                              @RequestParam Long startDate,

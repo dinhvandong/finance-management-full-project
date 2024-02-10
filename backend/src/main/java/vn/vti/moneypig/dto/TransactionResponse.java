@@ -1,20 +1,57 @@
 package vn.vti.moneypig.dto;
+import org.springframework.beans.factory.annotation.Autowired;
+import vn.vti.moneypig.models.Category;
+import vn.vti.moneypig.models.CategoryGroup;
+import vn.vti.moneypig.models.Transaction;
+import vn.vti.moneypig.services.CategoryGroupService;
+import vn.vti.moneypig.services.TransactionService;
+
 import java.util.List;
 public class TransactionResponse {
         private  Long id;
         private String name;
         private Long userId;
+
+        private  String username;
         private String note;
         private Long money;
         private String withPerson;
         private String group;
+
+        private Long groupID;
         private String category;
+
+        private  Long categoryID;
         private  Long createdDate;
         private List<String> listImages;
         private int active;
 
     public Long getId() {
         return id;
+    }
+
+    public Long getGroupID() {
+        return groupID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setGroupID(Long groupID) {
+        this.groupID = groupID;
+    }
+
+    public Long getCategoryID() {
+        return categoryID;
+    }
+
+    public void setCategoryID(Long categoryID) {
+        this.categoryID = categoryID;
     }
 
     public void setId(Long id) {
@@ -100,4 +137,6 @@ public class TransactionResponse {
     public void setActive(int active) {
         this.active = active;
     }
+
+
 }

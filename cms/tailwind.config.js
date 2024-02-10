@@ -10,8 +10,9 @@ module.exports = {
       },
       colors: {
         delete: '#ff4d4f',
-        edit: '#1890ff',
-        insert: '#83d76b',
+        edit: '#F88379',
+        insert: '#10B981',
+        history:'#4C1A71'
 
       },
     },

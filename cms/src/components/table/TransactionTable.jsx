@@ -1,16 +1,15 @@
 import { Button, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { convertDateFormat, deleteUser, getCategory } from '../../services/api';
+import { convertDateFormat, deleteUser, getCategory, getTransactions } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
-import defaultImage from '../../assets/avata.png'
 
 const TransactionTable = () => {
-    const [categoryList, setCategoryList] = useState([]);
+    const [transactionList, setTransactionList] = useState([]);
     const navigate = useNavigate();
   
     const handleEdit = (id) => {
       console.log('Edit clicked for ID:', id);
-      navigate(`/admin/categories/update/${id}`)
+      navigate(`/admin/transaction/update/${id}`)
     };
   
     const handleDelete = async (id) => {
@@ -22,9 +21,9 @@ const TransactionTable = () => {
   
     const refreshData = async()=>{
       try {
-        const categoryList = await getCategory();
-        console.log("categoryList", categoryList);
-        setCategoryList(categoryList);
+        const transactionList = await getTransactions();
+        console.log("transactionList", transactionList);
+        setTransactionList(transactionList);
       } catch (error) {
         // Handle error
         console.error('Error:', error);
@@ -36,17 +35,17 @@ const TransactionTable = () => {
     };
   
     useEffect(() => {
-      const fetchUsers = async () => {
+      const fetchTransaction = async () => {
         try {
-          const categoryList = await getCategory();
-          console.log("categoryList", categoryList);
-          setCategoryList(categoryList);
+          const transactionList = await getTransactions();
+          console.log("transactionList", transactionList);
+          setTransactionList(transactionList);
         } catch (error) {
           // Handle error
           console.error('Error:', error);
         }
       };
-      fetchUsers();
+      fetchTransaction();
     }, []);
     const columns = [
       {
@@ -59,6 +58,12 @@ const TransactionTable = () => {
         title: 'Tên hạng mục',
         dataIndex: 'name',
         key: 'name',
+  
+      },
+      {
+        title: 'Số tiền',
+        dataIndex: 'money',
+        key: 'money',
   
       },
       {
@@ -81,8 +86,8 @@ const TransactionTable = () => {
       },
       {
         title: 'Tài khoản',
-        dataIndex: 'user',
-        key: 'user',
+        dataIndex: 'username',
+        key: 'username',
         
       },
       {
@@ -99,14 +104,11 @@ const TransactionTable = () => {
         key: 'active',
         render: (status) => {
           const statusStyle = {
-            color: status === false ? 'red' : 'inherit',
+            color: status === 1 ? 'inherit' : 'red',
           };
-    
-          return <span style={statusStyle}>{(status === true ? 'Active' : 'Inactive')}</span>;
+          return <span style={statusStyle}>{(status === 1 ? 'Active' : 'Inactive')}</span>;
         },
       },
-
-
       {
         title: 'Hành động',
         key: 'actions',
@@ -123,7 +125,7 @@ const TransactionTable = () => {
     ];
     return (
       <div className="w-[100%]  flex justify-center items-center">
-        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={categoryList} columns={columns}  />
+        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={transactionList} columns={columns}  />
       </div>
     );
 }

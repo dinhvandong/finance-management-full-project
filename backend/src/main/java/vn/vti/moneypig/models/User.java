@@ -10,12 +10,13 @@ public class User {
     public static final String SEQUENCE_NAME = "user_sequence";
     private String username;
     private String email;
+
+    private String role;
     private String password;
     private String googleId;
     private String phone;
     private int status;
     private  long dateOfBirth;
-
     private  long createdDate;
     private  int gender;
     private String address;
@@ -35,6 +36,36 @@ public class User {
     public User(String username, String password) {
         this.username = username;
         this.password  = password;
+    }
+
+    public User(Long id, String username, String email,
+                String role, String password, String googleId,
+                String phone, int status, long dateOfBirth,
+                long createdDate, int gender, String address,
+                String avatar, Address workAddress, String referCode) {
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.role = role;
+        this.password = password;
+        this.googleId = googleId;
+        this.phone = phone;
+        this.status = status;
+        this.dateOfBirth = dateOfBirth;
+        this.createdDate = createdDate;
+        this.gender = gender;
+        this.address = address;
+        this.avatar = avatar;
+        this.workAddress = workAddress;
+        this.referCode = referCode;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public long getDateOfBirth() {

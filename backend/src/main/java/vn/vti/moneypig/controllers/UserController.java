@@ -13,7 +13,7 @@ import vn.vti.moneypig.jwt.JwtTokenStore;
 import vn.vti.moneypig.models.User;
 //import vn.vti.moneypig.otp.OTPService;
 import vn.vti.moneypig.services.UserService;
-@CrossOrigin(origins = "http://localhost:3000", maxAge = 3600)
+@CrossOrigin(origins = "http://150.95.110.230")
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

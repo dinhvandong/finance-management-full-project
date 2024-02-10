@@ -1,5 +1,6 @@
 package vn.vti.moneypig.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import vn.vti.moneypig.models.Image;
@@ -12,6 +13,8 @@ import java.util.Optional;
 public class ImageService {
     private final ImageRepository imageRepository;
 
+
+    @Autowired
     public ImageService(ImageRepository imageRepository) {
         this.imageRepository = imageRepository;
     }

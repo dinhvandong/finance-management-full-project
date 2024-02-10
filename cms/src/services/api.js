@@ -1,9 +1,11 @@
 // api.js
 import axios from 'axios';
-export const API_URL_IMAGE = "http://localhost:8080/api/images/";
 
-const API_URL = 'http://localhost:8080/api'; // Replace with your API URL
-axios.defaults.baseURL = 'http://localhost:8080'; // Replace with your backend API's base URL
+export const ROOT_URL = "150.95.110.230";
+export const API_URL_IMAGE = `http://${ROOT_URL}:8080/api/images/`;
+
+const API_URL = `http://${ROOT_URL}:8080/api`; // Replace with your API URL
+axios.defaults.baseURL = `http://${ROOT_URL}:8080`; // Replace with your backend API's base URL
 
 // Add the following lines to set the CORS headers
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'; // Replace '*' with the allowed origin(s) of your backend API
@@ -14,17 +16,15 @@ export const login = async (username, password) => {
     const response = await axios.post(`${API_URL}/auth/signin`, {
       username,
       password,
-    },{
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*', // Replace '*' with your server domain if known
-      },
+    }, {
+      withCredentials: true,
     });
-    if(response.data.success === 200){
+    console.log("login:", response);
+    if (response.data.success === 200) {
       const token = response.data.message;
       localStorage.setItem("token", token);
       return response.data;
-    }else {
+    } else {
       return null;
     }
   } catch (error) {
@@ -34,7 +34,9 @@ export const login = async (username, password) => {
 export const getUsers = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/user/findAll?token=${token}`);
+    const response = await axios.post(`${API_URL}/user/findAll?token=${token}`, {
+      withCredentials: true,
+    });
     return response.data.data;
   } catch (error) {
     throw error;
@@ -43,7 +45,9 @@ export const getUsers = async () => {
 export const getUserById = async (id) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`${API_URL}/user/findById?token=${token}&id=${id}`);
+    const response = await axios.get(`${API_URL}/user/findById?token=${token}&id=${id}`, {
+      withCredentials: true,
+    });
     return response.data.data;
   } catch (error) {
     throw error;
@@ -67,7 +71,9 @@ export const getUserFromToken = async (token) => {
 export const createUser = async (userData) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/user/insert?token=${token}`, userData)
+    const response = await axios.post(`${API_URL}/user/insert?token=${token}`, {
+      withCredentials: true,
+    }, userData)
     return response.data;
   } catch (error) {
     throw error;
@@ -77,7 +83,9 @@ export const createUser = async (userData) => {
 export const updateUser = async (userData) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/user/update?token=${token}`, userData)
+    const response = await axios.post(`${API_URL}/user/update?token=${token}`, {
+      withCredentials: true,
+    }, userData)
     return response.data;
   } catch (error) {
     throw error;
@@ -87,7 +95,9 @@ export const updateUser = async (userData) => {
 export const deleteUser = async (userID) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/user/delete?token=${token}&id=${userID}`)
+    const response = await axios.post(`${API_URL}/user/delete?token=${token}&id=${userID}`, {
+      withCredentials: true,
+    })
     return response.data;
   } catch (error) {
     throw error;
@@ -98,7 +108,9 @@ export const deleteUser = async (userID) => {
 export const getGroups = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/category-group/findAll?token=${token}`);
+    const response = await axios.post(`${API_URL}/category-group/findAll?token=${token}`, {
+      withCredentials: true,
+    });
     return response.data.data;
   } catch (error) {
     throw error;
@@ -108,6 +120,16 @@ export const getCategory = async () => {
   try {
     const token = localStorage.getItem("token");
     const response = await axios.post(`${API_URL}/category/findAll?token=${token}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getCategoryByGroupId = async (groupId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/category/findAllByGroupId?token=${token}&groupId=${groupId}`);
     return response.data.data;
   } catch (error) {
     throw error;
@@ -145,6 +167,53 @@ export const findCategory = async (id) => {
     throw error;
   }
 };
+
+export const getTransactions = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/transaction/findAll?token=${token}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const findTransactionsByUserId = async (userId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/transaction/findAllByUserId?token=${token}&userId=${userId}`);
+    return response.data.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const createTransaction = async (transactionData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/transaction/insert?token=${token}`,
+     transactionData)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+export const updateTransaction = async (transactionData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.post(`${API_URL}/transaction/update?token=${token}`,
+      {
+        withCredentials: true,
+      }, transactionData)
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 export const updateCategory = async (groupID, categoryData) => {
   try {
     const token = localStorage.getItem("token");
@@ -158,7 +227,9 @@ export const updateCategory = async (groupID, categoryData) => {
 export const updateGroups = async (groupData) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/category-group/update?token=${token}`, groupData);
+    const response = await axios.post(`${API_URL}/category-group/update?token=${token}`, {
+      withCredentials: true,
+    }, groupData);
     return response.data;
   } catch (error) {
     throw error;
@@ -169,8 +240,11 @@ export const updateGroups = async (groupData) => {
 export const getGroupById = async (id) => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.post(`${API_URL}/category-group/findById?token=${token}&id=${id}`);
-   
+    const response = await axios
+      .post(`${API_URL}/category-group/findById?token=${token}&id=${id}`, {
+        withCredentials: true,
+      });
+
     console.log("response1111:", response);
     return response.data.data;
   } catch (error) {
@@ -181,23 +255,34 @@ export const getGroupById = async (id) => {
 export const convertDateFormat = (inputDate) => {
   let inpuDateString = inputDate + "";
   const year = inpuDateString.substring(0, 4);
-    const month = inpuDateString.substring(4, 6);
-    const day = inpuDateString.substring(6, 8);
-    const formattedDate = `${year}-${month}-${day}`;
-    return formattedDate;
+  const month = inpuDateString.substring(4, 6);
+  const day = inpuDateString.substring(6, 8);
+  const formattedDate = `${year}-${month}-${day}`;
+  return formattedDate;
 };
 
 export const uploadFile = async (file) => {
   const formData = new FormData();
   const token = localStorage.getItem("token");
   formData.append('file', file);
-  return await axios.post(`${API_URL}/images?token=${token}`, formData)
-    .then(response => {
-      return response.data;
-    })
-    .catch(error => {
-      throw error;
-    });
+  const fileResponse = await axios.post(`${API_URL}/images?token=${token}`,
+    formData, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+  console.log("fileResponse", fileResponse);
+  return fileResponse.data;
+  // return await axios.post(`${API_URL}/images?token=${token}` , {
+  //   withCredentials: true,
+  // }, formData)
+  //   .then(response => {
+  //     return response.data;
+  //   })
+  //   .catch(error => {
+  //     throw error;
+  //   });
 };
 
 // Add more API functions as needed

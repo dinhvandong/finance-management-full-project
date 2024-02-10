@@ -30,6 +30,8 @@ const Login = () => {
     const result = await login(username, password);
     if(result.success===200){
       navigate('/admin');
+    }else {
+      console.log("resultLogin:", result);
     }
    // navigate('/admin');
     setUsername('');
@@ -48,7 +50,7 @@ const Login = () => {
     checkAuthentication();
   }, []);
   return (
-    <div className='h-screen w-screen items-center bg-[#4C1A71] flex justify-center'>
+    <div className='h-screen w-screen items-center bg-edit flex justify-center'>
       <form className="w-1/4 h-auto bg-gray-100 p-8 rounded shadow">
         <img src={iconImg} alt='pig-icon' className='w-[100px] h-[100px]' />
         <div className="mb-4 mt-4">

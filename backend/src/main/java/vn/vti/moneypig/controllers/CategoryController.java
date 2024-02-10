@@ -10,7 +10,7 @@ import vn.vti.moneypig.models.Category;
 import vn.vti.moneypig.models.CategoryGroup;
 import vn.vti.moneypig.models.Transaction;
 import vn.vti.moneypig.services.CategoryGroupService;
-
+@CrossOrigin(origins = "http://150.95.110.230")
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
@@ -31,6 +31,24 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category not exist"));
         }
 
+    }
+
+    @PostMapping("/findAllByGroupId")
+    public ResponseEntity<?> findAll(@RequestParam String token, @RequestParam Long groupId)
+    {
+        if(token.isBlank())
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category not exist"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated)
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, categoryGroupService.findCategoryByGroupId(groupId),"success"));
+        }else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"category not exist"));
+        }
     }
     @PostMapping("/findById")
     public ResponseEntity<?> findById(@RequestParam String token, @RequestParam Long id)

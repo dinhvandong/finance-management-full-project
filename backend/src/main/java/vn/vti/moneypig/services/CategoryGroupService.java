@@ -89,17 +89,17 @@ public class CategoryGroupService {
         Optional<CategoryGroup> categoryGroupOptional = categoryGroupRepository.findById(id);
         if (categoryGroupOptional.isPresent()) {
             CategoryGroup categoryGroupFound = null;
-
             categoryGroupFound = categoryGroupOptional.get();
             Long categoryID = sequenceGeneratorService.generateSequence(Category.SEQUENCE_NAME);
             category.setId(categoryID);
             category.setActive(true);
             category.setCreatedDate(DateUtils.getCurrentDate());
-
+            category.setGroupName(categoryGroupFound.getName());
+            category.setGroupID(categoryGroupFound.getId());
             List<Category> categoryList = new ArrayList<>();
-            if(categoryGroupFound.getCategoryList()!= null){
-                categoryList=       categoryGroupFound.getCategoryList();
-
+            if(categoryGroupFound.getCategoryList()!= null)
+            {
+                categoryList = categoryGroupFound.getCategoryList();
             }
             categoryList.add(category);
             categoryGroupFound.setCategoryList(categoryList);
@@ -145,9 +145,28 @@ public class CategoryGroupService {
         return  null;
     }
 
+    public List<Category> findCategoryByGroupId(Long groupId) {
+        List<Category> listAll = new ArrayList<>();
+        listAll = getAllCategoriesInAllGroups();
+
+        List<Category> filteredCategories = new ArrayList<>();
+        filteredCategories = listAll.stream()
+                .filter(category -> category.getGroupID().equals(groupId) )
+                .toList();
+        return  filteredCategories;
+    }
+
     public Category getCategoryById(Long categoryId) {
-        Query query = new Query(Criteria.where("categoryList.id").is(categoryId));
-        return mongoTemplate.findOne(query, Category.class, "CategoryGroup");
+
+        List<Category> listAll = getAllCategoriesInAllGroups();
+        for(Category item: listAll){
+            if(item.getId() == categoryId){
+                return item;
+            }
+        }
+        return  null;
+//        Query query = new Query(Criteria.where("categoryList.id").is(categoryId));
+//        return mongoTemplate.findOne(query, Category.class, "CategoryGroup");
     }
 
     public CategoryGroup updateCategory(Long categoryId, Category category) {

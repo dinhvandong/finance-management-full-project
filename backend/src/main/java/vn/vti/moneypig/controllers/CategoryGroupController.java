@@ -9,7 +9,7 @@ import vn.vti.moneypig.jwt.JwtInterceptor;
 import vn.vti.moneypig.models.CategoryGroup;
 import vn.vti.moneypig.models.User;
 import vn.vti.moneypig.services.CategoryGroupService;
-
+@CrossOrigin(origins = "http://150.95.110.230")
 @RestController
 @RequestMapping("/api/category-group")
 public class CategoryGroupController {

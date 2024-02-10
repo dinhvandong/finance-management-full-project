@@ -3,10 +3,7 @@ package vn.vti.moneypig.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.vti.moneypig.dto.ResponseObject;
 import vn.vti.moneypig.dto.UserDTO;
 import vn.vti.moneypig.jwt.JWTUtility;
@@ -16,6 +13,9 @@ import vn.vti.moneypig.repositories.UserRepository;
 import vn.vti.moneypig.security.PasswordEncoder;
 import vn.vti.moneypig.services.AuthService;
 import vn.vti.moneypig.services.UserService;
+
+
+@CrossOrigin(origins = "http://150.95.110.230")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {

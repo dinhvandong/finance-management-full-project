@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { BiChevronDown } from "react-icons/bi";
 import { FaLayerGroup } from "react-icons/fa";
@@ -30,6 +30,7 @@ import arrow2 from "../../assets/arrow2.png";
 import { BiSolidCategory } from "react-icons/bi";
 import { FaHome } from "react-icons/fa";
 import { AiOutlineTransaction } from "react-icons/ai";
+import { FiMenu } from 'react-icons/fi';
 const Sidebar = (props) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
@@ -144,102 +145,99 @@ const Sidebar = (props) => {
 
   }
 
-  function gotoTransaction(){
+  function gotoTransaction() {
     navigate("/admin/transaction");
   }
-  // function gotoHelperClasses() {
-  //   navigate("/admin/helperclasses");
-  // }
-  // function gotoWidgets() {
-  //   navigate("/admin/widgets");
-  // }
-  // function gotoUI() {
-  //   navigate("/admin/ui");
-  // }
-  // function gotoForm() {
-  //   navigate("/admin/form");
-  // }
-  // function gotoTables() {
-  //   navigate("/admin/tables");
-  // }
-  // function gotoMedias() {
-  //   navigate("/admin/medias");
-  // }
-  // function gotoCharts() {
-  //   navigate("/admin/charts");
-  // }
-  // function gotoExamplePages() {
-  //   navigate("/admin/examplepages");
-  // }
-  // function gotoMaps() {
-  //   navigate("/admin/maps");
-  // }
-  // function gotoMLM() {
-  //   navigate("/admin/mlm");
-  // }
 
   const tab = props.menu;
   const styleMenu1 = tab === "tab1" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   const styleMenu2 = tab === "tab2" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   const styleMenu3 = tab === "tab3" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
   const styleMenu4 = tab === "tab4" ? "bg-[#E9E9E9]" : "bg-[#FFFFFF]";
+
+  const [width, setWidth] = useState('w-[200px]');
+  const [active, setActive] = useState(true);
+  const onChangeSideBar = () => {
+    setActive(!active)
+    if (!active) {
+      setWidth('w-[200px]')
+    } else {
+      setWidth('w-[100px]')
+    }
+  }
+
   return (
-    <div className="flex flex-row w-[250px] h-screen border-r-2 mr-5 ">
-        <div className="flex flex-col w-full">
+    <div className={`flex flex-row ${width} h-screen border-r-2 mr-5`}>
+      <div className="flex flex-col w-full">
 
-          <div className="font-bold bg-blue-500">
-            <p className="m-2 text-xl text-white font-bold">DANH MỤC</p>
-          </div>
-          <div className="flex flex-col">
-            <button
-              onClick={() => gotoAdmin()}
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              className={`flex flex-row justify-start items-center ${styleMenu1} hover:text-red-600`}
-            >
-          
-              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
-              <div className="text-sm">Người dùng</div>
-            </button>
-            <button
-              onClick={() => gotoCategory()}
-              onMouseEnter={handleMouseEnter2}
-              onMouseLeave={handleMouseLeave2}
-              className={`flex flex-row justify-start items-center ${styleMenu2} hover:text-red-600`}
-            >
-             
-              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
+        <div className="flex flex-row justify-between items-center font-bold bg-edit">
+          <p className="m-4 text-sm text-white font-bold">DANH MỤC</p>
 
-              <div className="text-sm">Danh mục</div>
-            </button>
-            <button
-              onClick={() => gotoCategoryGroup()}
-              onMouseEnter={handleMouseEnter3}
-              onMouseLeave={handleMouseLeave3}
-              className={`flex flex-row justify-start items-center ${styleMenu3} hover:text-red-600`}
-            >
-            
-
-              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
-              <div className="text-sm">Nhóm danh mục</div>
-            </button>
-            <button
-              onClick={() => gotoTransaction()}
-              onMouseEnter={handleMouseEnter4}
-              onMouseLeave={handleMouseLeave4}
-              className={`flex flex-row justify-start items-center ${styleMenu4} hover:text-red-600`}
-            >
-             
-
-              <FaLayerGroup className="m-3 w-5 h-5 text-blue-600" />
-              <div className=" text-sm">Giao dịch</div>
-            </button>
-           
-
-          </div>
+          <FiMenu className="mr-3 text-white hover:cursor-pointer" onClick={onChangeSideBar} />
 
         </div>
+        <div className="flex flex-col">
+          <button
+            onClick={() => gotoAdmin()}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            className={`flex flex-row justify-start items-center ${styleMenu1} hover:text-red-600`}
+          >
+
+            <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
+            {
+              (active == true) ? <div className="text-sm">Người dùng</div>:<div></div>
+
+            }
+          </button>
+          <button
+            onClick={() => gotoCategory()}
+            onMouseEnter={handleMouseEnter2}
+            onMouseLeave={handleMouseLeave2}
+            className={`flex flex-row justify-start items-center ${styleMenu2} hover:text-red-600`}
+          >
+
+            <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
+
+            {
+              active == true ? <div className="text-sm">Danh mục</div>:<div></div>
+            }
+
+          </button>
+          <button
+            onClick={() => gotoCategoryGroup()}
+            onMouseEnter={handleMouseEnter3}
+            onMouseLeave={handleMouseLeave3}
+            className={`flex flex-row justify-start items-center ${styleMenu3} hover:text-red-600`}
+          >
+
+
+            <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
+            {
+              active == true ? <div className="text-sm">Nhóm danh mục</div>:<div></div>
+
+            }
+          </button>
+          <button
+            onClick={() => gotoTransaction()}
+            onMouseEnter={handleMouseEnter4}
+            onMouseLeave={handleMouseLeave4}
+            className={`flex flex-row justify-start items-center ${styleMenu4} hover:text-red-600`}
+          >
+
+
+            <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
+            {
+              active == true ? <div className=" text-sm">Giao dịch</div>:<div></div>
+
+            }
+          </button>
+
+
+        </div>
+
       </div>
+    </div>
   );
 };
 
