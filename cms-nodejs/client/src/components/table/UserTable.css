@@ -1,0 +1,9 @@
+.row-even {
+    @apply bg-white;
+
+  }
+  
+  .row-odd {
+    @apply bg-gray-100;
+
+  }
