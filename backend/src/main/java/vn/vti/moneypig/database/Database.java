@@ -37,14 +37,10 @@ public class Database {
                 LocalDate currentDate = LocalDate.now();
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
                 String formattedDate = currentDate.format(formatter);
-
                 long longDate = Long.parseLong(formattedDate);
                 user.setCreatedDate(longDate);
-
                 if(userRepository.findAll().isEmpty())
                     userRepository.insert(user);
-
-
                 CategoryGroup categoryGroup1 = new CategoryGroup();
                 categoryGroup1.setId(1L);
                 categoryGroup1.setCode("EXPENSE");
