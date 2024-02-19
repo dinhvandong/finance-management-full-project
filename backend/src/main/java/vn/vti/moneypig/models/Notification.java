@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "notifications")
 public class Notification {
     @Id
@@ -17,9 +19,26 @@ public class Notification {
     private int type;
     private Long senderId;
     private String senderAccount;
-    private  Long receivedId;
-    private String receivedAccount;
+    private  List<Long> receivedId;
+    private List<String> receivedAccount;
     private  Long createdDate;
+
+    public List<Long> getReceivedId() {
+        return receivedId;
+    }
+
+    public void setReceivedId(List<Long> receivedId) {
+        this.receivedId = receivedId;
+    }
+
+    public List<String> getReceivedAccount() {
+        return receivedAccount;
+    }
+
+    public void setReceivedAccount(List<String> receivedAccount) {
+        this.receivedAccount = receivedAccount;
+    }
+
     public Long getId() {
         return id;
     }
@@ -69,19 +88,7 @@ public class Notification {
     public void setSenderAccount(String senderAccount) {
         this.senderAccount = senderAccount;
     }
-    public Long getReceivedId() {
-        return receivedId;
-    }
-    public void setReceivedId(Long receivedId) {
-        this.receivedId = receivedId;
-    }
-    public String getReceivedAccount() {
-        return receivedAccount;
-    }
-    public void setReceivedAccount(String receivedAccount) {
-        this.receivedAccount = receivedAccount;
-    }
-    public Long getCreatedDate() {
+      public Long getCreatedDate() {
         return createdDate;
     }
     public void setCreatedDate(Long createdDate) {

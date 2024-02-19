@@ -9,5 +9,5 @@ public interface NotificationRepository
         extends MongoRepository<Notification, Long>
 {
     List<Notification> findAllBySenderId(Long senderId);
-    List<Notification> findAllByReceivedId(Long receivedId);
+   // List<Notification> findAllByReceivedId(Long receivedId);
 }

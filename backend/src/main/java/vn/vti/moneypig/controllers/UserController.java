@@ -12,6 +12,7 @@ import vn.vti.moneypig.jwt.JwtInterceptor;
 import vn.vti.moneypig.jwt.JwtTokenStore;
 import vn.vti.moneypig.models.User;
 //import vn.vti.moneypig.otp.OTPService;
+import vn.vti.moneypig.security.PasswordEncoder;
 import vn.vti.moneypig.services.UserService;
 @CrossOrigin(origins = "http://150.95.110.230")
 @RestController
@@ -79,6 +80,8 @@ public class UserController {
 
         boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
         if(isAuthenticated){
+            String rawPassword = user.getPassword();
+            user.setPassword(PasswordEncoder.getInstance().encodePassword(rawPassword));
             User response =  userService.createUser(user);
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"user not exist"));
         }else {

@@ -203,11 +203,9 @@ const Sidebar = (props) => {
           >
 
             <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
-
             {
               active == true ? <div className="text-sm">Danh mục</div>:<div></div>
             }
-
           </button>
           <button
             onClick={() => gotoCategoryGroup()}
@@ -215,8 +213,6 @@ const Sidebar = (props) => {
             onMouseLeave={handleMouseLeave3}
             className={`flex flex-row justify-start items-center ${styleMenu3} hover:text-red-600`}
           >
-
-
             <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
             {
               active == true ? <div className="text-sm">Nhóm danh mục</div>:<div></div>
@@ -229,33 +225,36 @@ const Sidebar = (props) => {
             onMouseLeave={handleMouseLeave4}
             className={`flex flex-row justify-start items-center ${styleMenu4} hover:text-red-600`}
           >
-
-
             <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
             {
               active == true ? <div className=" text-sm">Giao dịch</div>:<div></div>
-
             }
           </button>
-
           <button
             onClick={() => gotoNotification()}
             onMouseEnter={handleMouseEnter5}
             onMouseLeave={handleMouseLeave5}
             className={`flex flex-row justify-start items-center ${styleMenu5} hover:text-red-600`}
           >
-
-
             <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
             {
               active == true ? <div className=" text-sm">Thông báo</div>:<div></div>
 
             }
           </button>
+          <button
+            onClick={() => gotoNotification()}
+            onMouseEnter={handleMouseEnter5}
+            onMouseLeave={handleMouseLeave5}
+            className={`flex flex-row justify-start items-center ${styleMenu5} hover:text-red-600`}
+          >
+            <FaLayerGroup className="m-3 w-5 h-5 text-edit" />
+            {
+              active == true ? <div className=" text-sm">Cấu hình</div>:<div></div>
 
-
+            }
+          </button>
         </div>
-
       </div>
     </div>
   );

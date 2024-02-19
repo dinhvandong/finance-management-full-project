@@ -1,11 +1,11 @@
 import { Button, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { convertDateFormat, deleteUser, getCategory, getUsers } from '../../services/api';
+import { convertDateFormat, deleteUser, getAllNotification, getCategory, getUsers } from '../../services/api';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/avata.png'
 import CategoriesList from './../admin/CategoriesList';
 const NotificationTable = () => {
-    const [categoryList, setCategoryList] = useState([]);
+    const [notificationList, setNotificationList] = useState([]);
     const navigate = useNavigate();
   
     const handleEdit = (id) => {
@@ -22,9 +22,9 @@ const NotificationTable = () => {
   
     const refreshData = async()=>{
       try {
-        const categoryList = await getCategory();
-        console.log("categoryList", categoryList);
-        setCategoryList(categoryList);
+        const notificationList = await getAllNotification();
+        console.log("notificationList", notificationList);
+        setNotificationList(notificationList);
       } catch (error) {
         // Handle error
         console.error('Error:', error);
@@ -36,17 +36,17 @@ const NotificationTable = () => {
     };
   
     useEffect(() => {
-      const fetchUsers = async () => {
+      const fetchNotifications = async () => {
         try {
-          const categoryList = await getCategory();
-          console.log("categoryList", categoryList);
-          setCategoryList(categoryList);
+          const notificationList = await getAllNotification();
+          console.log("notificationList", notificationList);
+          setNotificationList(notificationList);
         } catch (error) {
           // Handle error
           console.error('Error:', error);
         }
       };
-      fetchUsers();
+      fetchNotifications();
     }, []);
     const columns = [
       {
@@ -56,26 +56,28 @@ const NotificationTable = () => {
        // width: '10%'
       },
       {
-        title: 'Tên hạng mục',
-        dataIndex: 'name',
-        key: 'name',
+        title: 'Tiêu đề',
+        dataIndex: 'title',
+        key: 'title',
   
       },
       {
-        title: 'Mô tả',
-        dataIndex: 'desc',
-        key: 'desc',
+        title: 'Nội dung',
+        dataIndex: 'content',
+        key: 'content',
   
       },
       {
-        title: 'Hình ảnh',
-        dataIndex: 'icon',
-        key: 'icon',
-        render: (text) => <img
-          src={text || defaultImage}
-          alt="Icon"
-          className="h-10 w-10 rounded-full"
-        />,
+        title: 'Người gửi',
+        dataIndex: 'senderAccount',
+        key: 'senderAccount',
+  
+      },
+      {
+        title: 'Người nhận thông báo',
+        dataIndex: 'receivedAccount',
+        key: 'receivedAccount',
+  
       },
       {
         title: 'Ngày tạo',
@@ -87,14 +89,14 @@ const NotificationTable = () => {
       },
       {
         title: 'Trạng thái',
-        dataIndex: 'active',
-        key: 'active',
+        dataIndex: 'status',
+        key: 'status',
         render: (status) => {
           const statusStyle = {
-            color: status === false ? 'red' : 'inherit',
+            color: status === 0 ? 'red' : 'inherit',
           };
     
-          return <span style={statusStyle}>{(status === true ? 'Active' : 'Inactive')}</span>;
+          return <span style={statusStyle}>{(status === 1 ? 'Active' : 'Inactive')}</span>;
         },
       },
 
@@ -115,7 +117,7 @@ const NotificationTable = () => {
     ];
     return (
       <div className="w-[100%]  flex justify-center items-center">
-        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={categoryList} columns={columns}  />
+        <Table  style={{width:'100%', fontFamily:'Courier New '}}  rowClassName={getRowClassName} dataSource={notificationList} columns={columns}  />
       </div>
     );
 }

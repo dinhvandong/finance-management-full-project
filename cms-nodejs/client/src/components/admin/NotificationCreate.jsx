@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { API_URL_IMAGE, createCategory, createUser, getGroups, uploadFile } from '../../services/api';
-import { Upload, Button } from 'antd';
+import { API_URL_IMAGE, createCategory, createNotification, createUser, getGroups, getNotificationType, getPriorityList, getUsers, uploadFile } from '../../services/api';
+import { Upload, Button, AutoComplete, Tag } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { Select } from 'antd';
 import noImage from '../../assets/avatar-default-icon.png'
@@ -12,16 +12,20 @@ const NotificationCreate = () => {
   const [file, setFile] = useState(noImage);
   const gotoCategoryList = () => {
     navigate('/admin/notifications');
-
   }
+  const [userList, setUserList] = useState([]);
+  const [priorityList, setPriorityList] = useState([]);
+  const [selectedPriority, setSelectedPriority] = useState();
+  const [notificationTypeList, setNotificationTypeList] = useState([]);
+  const [selectedNotification, setSelectedNotification] = useState();
   const [options, setOptions] = useState([]);
   const [selectedOption, setSelectedOption] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     content: '',
-    priority: '',
-    type: '',
-    userID: 0
+    priority: 0,
+    type: 0,
+    receivedAccount: []
   });
 
   const handleChange = (e) => {
@@ -46,24 +50,33 @@ const NotificationCreate = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    const result = await createCategory(selectedOption, formData);
+    const result = await createNotification(formData);
     if (result.success === 200) {
-      navigate('/admin/categories');
+      navigate('/admin/notification');
     }
     // Reset form data
     setFormData({
       title: '',
       content: '',
-      priority: '',
-      type: '',
-      userID: 0
+      priority: 0,
+      type: 0,
+      receivedAccount: []
     });
   };
 
   useEffect(() => {
+    setPriorityList(getPriorityList());
+    setNotificationTypeList(getNotificationType());
     const fetchData = async () => {
-      const data = await getGroups();
-      setOptions(data);
+      const array = await getUsers();
+      console.log("listuser:", array);
+      var userArray = [];
+      for (let index = 0; index < array.length; index++) {
+        const element = array[index].username;
+        //setUserList([...userList, element]);
+        userArray.push(element);
+      }
+      setUserList(userArray);
     };
     fetchData();
   }, []);
@@ -72,10 +85,43 @@ const NotificationCreate = () => {
     // Handle the selected value here
     console.log("valueOption", value);
     setSelectedOption(value);
-
     setFormData(prevFormData => ({
       ...prevFormData,
       groupID: value
+    }));
+  };
+
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [inputValue, setInputValue] = useState('');
+  // const [userData, setUserData] = useState([
+  //   'John Doe',
+  //   'Jane Smith',
+  //   'David Johnson',
+  //   'Sarah Davis',
+  // ]);
+
+  const handleInputChange = (value) => {
+    setInputValue(value);
+  };
+
+  const handleSelectUser = (value) => {
+    if (value && !selectedUsers.includes(value)) {
+      const usersData = [...selectedUsers, value];
+      setSelectedUsers(usersData);
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        receivedAccount: usersData
+      }));
+      setInputValue('');
+    }
+  };
+
+  const handleRemoveUser = (user) => {
+    const updatedUsers = selectedUsers.filter((u) => u !== user);
+    setSelectedUsers(updatedUsers);
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      receivedAccount: updatedUsers
     }));
   };
 
@@ -121,8 +167,8 @@ const NotificationCreate = () => {
           <label htmlFor="priority" className="block mb-2 font-medium">
             Chọn độ ưu tiên: <span className="text-lg text-red-500">*</span>
           </label>
-          <Select className="w-full  h-[40px]" value={selectedOption} onChange={handleChangeOption}>
-            {options.map((option) => (
+          <Select className="w-full  h-[40px]" value={selectedPriority} onChange={handleChangeOption}>
+            {priorityList.map((option) => (
               <Option key={option.id} value={option.id}>
                 {option.name}
               </Option>
@@ -135,8 +181,8 @@ const NotificationCreate = () => {
           <label htmlFor="group" className="block mb-2 font-medium">
             Chọn loại thông báo: <span className="text-lg text-red-500">*</span>
           </label>
-          <Select className="w-full  h-[40px]" value={selectedOption} onChange={handleChangeOption}>
-            {options.map((option) => (
+          <Select className="w-full  h-[40px]" value={selectedNotification} onChange={handleChangeOption}>
+            {notificationTypeList.map((option) => (
               <Option key={option.id} value={option.id}>
                 {option.name}
               </Option>
@@ -149,15 +195,32 @@ const NotificationCreate = () => {
           <label htmlFor="userID" className="block mb-2 font-medium">
             ID của người nhận: <span className="text-lg text-red-500">*</span>
           </label>
-          <input
-            type="text"
-            id="userID"
-            name="userID"
-            value={formData.userID}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded shadow-sm focus:outline-none focus:border-blue-500"
-            required
+          <AutoComplete
+            value={inputValue}
+            onChange={handleInputChange}
+            onSelect={handleSelectUser}
+            style={{ width: '100%' }}
+            placeholder="Enter user name"
+            dataSource={userList}
+            filterOption={(inputValue, option) =>
+              option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+            }
           />
+        </div>
+
+        <div className="mb-4">
+
+          <div style={{ marginTop: '10px' }}>
+            {selectedUsers.map((user) => (
+              <Tag
+                key={user}
+                closable
+                onClose={() => handleRemoveUser(user)}
+              >
+                {user}
+              </Tag>
+            ))}
+          </div>
         </div>
         <button
           type="submit"

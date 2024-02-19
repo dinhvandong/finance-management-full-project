@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 import vn.vti.moneypig.dto.ResponseObject;
 import vn.vti.moneypig.jwt.JwtInterceptor;
 import vn.vti.moneypig.models.Notification;
+import vn.vti.moneypig.models.User;
 import vn.vti.moneypig.services.NotificationService;
+import vn.vti.moneypig.services.UserService;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +19,8 @@ import java.util.Optional;
 public class NotificationController {
     @Autowired
     NotificationService notificationService;
+    @Autowired
+    UserService userService;
     @PostMapping("/findAll")
     public ResponseEntity<?> findAll(@RequestParam String token)
     {
@@ -42,19 +46,22 @@ public class NotificationController {
     {
         if(token.isBlank())
         {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"notification is not exist"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"token is not exist"));
         }
         token = "Bearer " + token;
 
         boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
         if(isAuthenticated)
         {
+            User userFound = userService.findUserByToken(token);
+            newNotification.setSenderAccount(userFound.getUsername());
+            newNotification.setSenderId(userFound.getId());
             Notification response =  notificationService.insert(newNotification);
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"notification is not exist"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"success"));
         }
         else
         {
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"notification is not exist"));
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"token is not exist"));
         }
     }
 
@@ -75,6 +82,50 @@ public class NotificationController {
         else
         {
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"notification is not exist"));
+        }
+    }
+
+
+    @PostMapping("/findAllBySenderId")
+    public ResponseEntity<?> findAllBySenderId(@RequestParam String token, @RequestParam Long id)
+    {
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"token is blank"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            Optional<User> optional = userService.findByUserId(id);
+            if(optional.isPresent()){
+                List<Notification> returnList = notificationService.findAllBySenderID(id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, returnList,"success"));
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(202, null,"user ID is not exist"));
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"token is not valid"));
+        }
+    }
+
+    @PostMapping("/findAllByReceivedId")
+    public ResponseEntity<?> findAllByReceivedId(@RequestParam String token, @RequestParam Long id){
+        if(token.isBlank()){
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"token is blank"));
+        }
+        token = "Bearer " + token;
+        boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
+        if(isAuthenticated){
+            Optional<User> optional = userService.findByUserId(id);
+            if(optional.isPresent()){
+                List<Notification> returnList = notificationService.findAllByReceivedID(id);
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, returnList,"success"));
+            }
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(202, null,"user ID is not exist"));
+        }
+        else
+        {
+            return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(201, null,"token is not valid"));
         }
     }
 

@@ -307,4 +307,51 @@ export const uploadFile = async (file) => {
   return fileResponse.data;
 };
 
+export const getPriorityList = () =>{
+  const array = [
+    {
+      id:1,
+      priority:1,
+      name:"Cao nhất"
+    },
+    {
+      id:2,
+      priority:2,
+      name:"Trung bình"
+    },
+    {
+      id:3,
+      priority:3,
+      name:"Thấp"
+    }
+  ];
+  return array;
+};
+
+export const getNotificationType = () =>
+{
+  const array = [
+    {
+      id:1,
+      name:"Đến tất cả",
+      code:"ALL"
+    },
+    {
+      id:2,
+      name:"Đến nhóm cụ thể",
+      code:"GROUP"
+    },
+    {
+      id:3,
+      name:"Đến 1 người cụ thể",
+      code:"PERSONAL"
+    }
+  ];
+  return array;
+};
+
+
+
+
+
 // Add more API functions as needed
