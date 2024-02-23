@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import iconImg from '../assets/twemoji_pig-face.png'
-import { login } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { isAuthenticated } from '../utils/localStorage';
+import { AuthContext } from '../AuthProvider';
+import { loginRequest } from './../services/api';
 
 const Login = () => {
  const navigate = useNavigate();
@@ -10,6 +11,9 @@ const Login = () => {
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+
+  const { login } = useContext(AuthContext);
+  const [userInfo, setUserInfo] = useState({});
   // const [isLogin, setIsLogin] = useState(false);
 
   const [username, setUsername] = useState('');
@@ -27,9 +31,16 @@ const Login = () => {
     e.preventDefault();
     console.log("username:", username);
     console.log("password:", password);
-    const result = await login(username, password);
+    const result = await loginRequest(username, password);
     if(result.success===200){
+
+      const token = result.data.message;
+      const user = result.data
+      login(token, user);
       navigate('/admin');
+      
+      
+      
     }else {
       console.log("resultLogin:", result);
     }

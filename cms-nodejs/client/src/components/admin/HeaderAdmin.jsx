@@ -1,21 +1,24 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import iconApp from '../../assets/logo512.png';
 import { FaUser, FaUserCircle } from 'react-icons/fa';
 import { RiLogoutBoxLine, RiNotification2Line } from 'react-icons/ri';
+import { AuthContext } from '../../AuthProvider';
 const HeaderAdmin = () => {
-
+  const {userInfo}  = useContext(AuthContext);
+  //useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
-
+  // useEffect(() => {
+  //   const user = useContext(AuthContext);
+  //   setUserInfo(user);
+  // }, []);
   return (
-
     <div className='flex flex-row w-full h-full justify-end'>
       <div className="flex h-[45px] flex-row w-full justify-center items-center bg-insert">
         <img className='w-6 h- ml-5' src={iconApp} alt='icon-app' />
         <div className="flex  font-bold text-white w-[50%]  ml-5">
-
           ADMINBSB - QUẢN TRỊ ỨNG DỤNG HELLO MONEY
         </div>
         <div className="flex flex-row justify-end w-[50%]">
@@ -49,6 +52,9 @@ const HeaderAdmin = () => {
             /> */}
             <FaUser className='text-white w-5 h-5' onClick={toggleMenu} />
           </button>
+          <button>
+            {userInfo.username}
+          </button>
         </div>
       </div>
       {isMenuOpen &&
@@ -73,10 +79,7 @@ const HeaderAdmin = () => {
               </li>
             </ul>
           </nav>
-
         </div>)}
-
-
     </div>
 
   )

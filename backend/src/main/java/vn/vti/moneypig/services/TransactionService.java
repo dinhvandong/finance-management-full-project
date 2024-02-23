@@ -65,20 +65,45 @@ public class TransactionService {
     {
         TransactionResponse transactionResponse = new TransactionResponse();
         transactionResponse.setActive(origin.getActive());
-        Category category = categoryGroupService.getCategoryById(origin.getCategoryID());
-        CategoryGroup group = categoryGroupService.findById(origin.getGroupID());
-        User user = userService.findById(origin.getUserID());
-        transactionResponse.setCategory(category.getName());
+        Category category = null;
+        try{
+            category = categoryGroupService.getCategoryById(origin.getCategoryID());
+
+        }catch (Exception ex){
+
+        }
+
+        CategoryGroup group = null;
+
+        try{
+            group = categoryGroupService.findById(origin.getGroupID());
+
+        }catch (Exception ex){
+
+        }
+
+        User user = null;
+        user = userService.findById(origin.getUserID());
+        if(category != null){
+            transactionResponse.setCategory(category.getName());
+            transactionResponse.setCategoryID(origin.getCategoryID());
+
+        }
         transactionResponse.setId(origin.getId());
         transactionResponse.setMoney(origin.getMoney());
         transactionResponse.setListImages(origin.getListImages());
         transactionResponse.setCreatedDate(origin.getCreatedDate());
         transactionResponse.setNote(origin.getNote());
         transactionResponse.setUserId(origin.getUserID());
-        transactionResponse.setUsername(user.getUsername());
-        transactionResponse.setGroup(group.getName());
-        transactionResponse.setCategoryID(origin.getCategoryID());
-        transactionResponse.setGroupID(origin.getGroupID());
+        if(user!=null){
+            transactionResponse.setUsername(user.getUsername());
+
+        }
+        if(group != null){
+            transactionResponse.setGroupID(origin.getGroupID());
+            transactionResponse.setGroup(group.getName());
+
+        }
         transactionResponse.setWithPerson(origin.getWithPerson());
         transactionResponse.setName(origin.getName());
         return  transactionResponse;
@@ -105,5 +130,22 @@ public class TransactionService {
     public List<Transaction> findByDateRange(Long startDate, Long endDate)
     {
         return transactionRepository.findTransactionsByDateRange(startDate, endDate);
+    }
+
+
+    public List<Transaction> findByDate(Long startDate, Long endDate)
+    {
+        List<Transaction> listAll = new ArrayList<>();
+        listAll = findAll();
+        List<Transaction> listFilter = new ArrayList<>();
+        for(Transaction transaction: listAll)
+        {
+            if(transaction.getCreatedDate()>= startDate && transaction.getCreatedDate()<= endDate)
+            {
+                listFilter.add(transaction);
+            }
+        }
+        return  listFilter;
+        //return transactionRepository.findTransactionsByDateRange(startDate, endDate);
     }
 }

@@ -11,7 +11,7 @@ axios.defaults.baseURL = `http://${ROOT_URL}:8080`; // Replace with your backend
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'; // Replace '*' with the allowed origin(s) of your backend API
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE'; // Specify the allowed HTTP methods
 axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept, Authorization'; // Specify the allowed headers
-export const login = async (username, password) => {
+export const loginRequest = async (username, password) => {
   try {
     const response = await axios.post(`${API_URL}/auth/signin`, {
       username,

@@ -53,39 +53,32 @@ const NotificationTable = () => {
         title: 'ID',
         dataIndex: 'id',
         key: 'id',
-       // width: '10%'
       },
       {
         title: 'Tiêu đề',
         dataIndex: 'title',
         key: 'title',
-  
       },
       {
         title: 'Nội dung',
         dataIndex: 'content',
         key: 'content',
-  
       },
       {
         title: 'Người gửi',
         dataIndex: 'senderAccount',
         key: 'senderAccount',
-  
       },
       {
         title: 'Người nhận thông báo',
         dataIndex: 'receivedAccount',
         key: 'receivedAccount',
-  
       },
       {
         title: 'Ngày tạo',
         dataIndex: 'createdDate',
         key: 'createdDate',
         render: (text) => convertDateFormat(text),
-       // width: '20%'
-  
       },
       {
         title: 'Trạng thái',
@@ -95,12 +88,9 @@ const NotificationTable = () => {
           const statusStyle = {
             color: status === 0 ? 'red' : 'inherit',
           };
-    
           return <span style={statusStyle}>{(status === 1 ? 'Active' : 'Inactive')}</span>;
         },
       },
-
-
       {
         title: 'Hành động',
         key: 'actions',
@@ -109,11 +99,9 @@ const NotificationTable = () => {
             <Button className="bg-edit text-white" type="primary" onClick={() => handleEdit(record.id)}>Cập nhật</Button>
             <Button className="bg-delete mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Xóa</Button>
             <Button className="bg-emerald-500 mr-5 text-white" type="danger" onClick={() => handleDelete(record.id)}>Kích hoạt</Button>
-
           </Space>
         ),
       },
-      // Add more columns as needed
     ];
     return (
       <div className="w-[100%]  flex justify-center items-center">
