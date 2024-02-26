@@ -33,13 +33,10 @@ const Login = () => {
     console.log("password:", password);
     const result = await loginRequest(username, password);
     if(result.success===200){
-
       const token = result.data.message;
       const user = result.data
       login(token, user);
       navigate('/admin');
-      
-      
       
     }else {
       console.log("resultLogin:", result);
