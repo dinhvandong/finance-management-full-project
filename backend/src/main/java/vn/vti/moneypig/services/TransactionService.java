@@ -108,7 +108,12 @@ public class TransactionService {
         transactionResponse.setName(origin.getName());
         return  transactionResponse;
     }
-    public List<TransactionResponse> findAll()
+
+    public List<Transaction> findAll()
+    {
+        return transactionRepository.findAll();
+    }
+    public List<TransactionResponse> findAllResponse()
     {
         List <Transaction > transactionList =transactionRepository.findAll();
         List<TransactionResponse> transactionResponses = new ArrayList<>();

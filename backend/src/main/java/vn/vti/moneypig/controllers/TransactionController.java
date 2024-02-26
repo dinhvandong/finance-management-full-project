@@ -116,7 +116,7 @@ public class TransactionController {
         boolean isAuthenticated = JwtInterceptor.getInstance().isValidToken(token);
         if(isAuthenticated)
         {
-            List<TransactionResponse> response =  transactionService.findAll();
+            List<TransactionResponse> response =  transactionService.findAllResponse();
             return ResponseEntity.status(HttpStatus.OK).body(new ResponseObject(200, response,"success"));
         }
         else

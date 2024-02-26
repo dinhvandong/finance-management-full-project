@@ -53,7 +53,7 @@ const HeaderAdmin = () => {
             <FaUser className='text-white w-5 h-5' onClick={toggleMenu} />
           </button>
           <button>
-            {userInfo.username}
+            {userInfo.phone}
           </button>
         </div>
       </div>
