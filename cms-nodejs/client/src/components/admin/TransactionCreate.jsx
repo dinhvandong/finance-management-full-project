@@ -171,13 +171,12 @@ const TransactionCreate = () => {
         </div>
         <div className="mb-4">
           <label htmlFor="icon" className="block mb-2 font-medium">
-            Chọn ảnh đại diện: <span className="text-lg text-red-500">*</span>
+            Hóa đơn: <span className="text-lg text-red-500">*</span>
           </label>
           <Upload
             id='icon' name='icon'
             beforeUpload={() => false} // Prevent automatic file upload
             onChange={(info) => handleFileUpload(info.file)}
-            maxCount={1}
           >
             <Button icon={<UploadOutlined />}>Select File</Button>
           </Upload>
